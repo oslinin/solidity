@@ -1,0 +1,86 @@
+import json
+
+from web3 import Web3
+
+# In the video, we forget to `install_solc`
+# from solcx import compile_standard
+from solcx import compile_standard, install_solc
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+with open("./SimpleStorage.sol", "r") as file:
+    simple_storage_file = file.read()
+
+# We add these two lines that we forgot from the video!
+print("Installing...")
+install_solc("0.6.0")
+
+# Solidity source code
+compiled_sol = compile_standard(
+    {
+        "language": "Solidity",
+        "sources": {"SimpleStorage.sol": {"content": simple_storage_file}},
+        "settings": {
+            "outputSelection": {
+                "*": {
+                    "*": ["abi", "metadata", "evm.bytecode", "evm.bytecode.sourceMap"]
+                }
+            }
+        },
+    },
+    solc_version="0.6.0",
+)
+
+with open("compiled_code.json", "w") as file:
+    json.dump(compiled_sol, file)
+
+# get bytecode
+bytecode = compiled_sol["contracts"]["SimpleStorage.sol"]["SimpleStorage"]["evm"][
+    "bytecode"
+]["object"]
+
+# get abi
+abi = json.loads(
+    compiled_sol["contracts"]["SimpleStorage.sol"]["SimpleStorage"]["metadata"]
+)["output"]["abi"]
+
+# w3 = Web3(Web3.HTTPProvider(os.getenv("RINKEBY_RPC_URL")))
+# chain_id = 4
+#
+# For connecting to ganache
+# w3 = Web3(Web3.HTTPProvider("HTTP://127.0.0.1:7545"))
+# chain_id = 1337
+# my_address = "0x3dDb21f8f00415E41CB38f5c185cC9F2FeE0df11"
+# private_key = "0x92f8d0e5e4d7aee807c628648b18260327473d790b070fa389f5c357b68355fe"
+
+if True:
+    # infura.io (or alchemy)
+    w3 = Web3(    Web3.HTTPProvider("https://rinkeby.infura.io/v3/6858e98dc5ec46d7ae03deab16f28b18") )
+    chain_id = 4  # https://chainlist.org/
+    my_address = "0x50507F1B0D54d406521f36952C9E067A5a25a8E6"
+    private_key=os.getenv("PRIVATE_KEY2")
+else:
+    # ganache
+    w3 = Web3(Web3.HTTPProvider("HTTP://127.0.0.1:8545")) #ganache
+    chain_id = 1337
+    my_address = "0x90F8bf6A479f320ead074411a4B0e7944Ea8c9C1"
+    private_key=os.getenv("PRIVATE_KEY")
+
+
+# Create the contract in Python
+SimpleStorage = w3.eth.contract(abi=abi, bytecode=bytecode)
+# Get the latest transaction
+nonce = w3.eth.getTransactionCount(my_address)
+# Submit the transaction that deploys the contract
+transaction = SimpleStorage.constructor().buildTransaction(
+    {
+        "chainId": chain_id,
+        "gasPrice": w3.eth.gas_price,
+        "from": my_address,
+        "nonce": nonce,
+    }
+)
+# Sign the transaction
+print(private_key)
