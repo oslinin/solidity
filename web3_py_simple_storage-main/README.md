@@ -1,3 +1,11 @@
+git clone https://github.com/PatrickAlphaC/web3_py_simple_storage
+cd web3_py_simple_storage
+pip install black
+pip install py-solc-x 
+sudo apt-get install -y nodejs
+npm install –global yarn
+python deploy.py
+
 1. Clone this repo
 ```
 git clone https://github.com/PatrickAlphaC/web3_py_simple_storage
@@ -33,3 +41,7 @@ my_address = "0x94B806BB0e455576ea46193D9DBbB08d1cc57Da9"
 private_key = os.getenv("PRIVATE_KEY")
 ```
 And make sure you have testnet ETH for whatever testnet you're on!
+
+
+
+
