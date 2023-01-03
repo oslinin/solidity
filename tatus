@@ -1,0 +1,113 @@
+[1mdiff --git a/aave_brownie_py_freecode b/aave_brownie_py_freecode[m
+[1m--- a/aave_brownie_py_freecode[m
+[1m+++ b/aave_brownie_py_freecode[m
+[36m@@ -1 +1 @@[m
+[31m-Subproject commit ff488acaec1da4ce143f3ff3763f43bb446e9550[m
+[32m+[m[32mSubproject commit ff488acaec1da4ce143f3ff3763f43bb446e9550-dirty[m
+[1mdiff --git a/brownie/.gitattributes b/brownie/.gitattributes[m
+[1mdeleted file mode 100644[m
+[1mindex adb20fe..0000000[m
+[1m--- a/brownie/.gitattributes[m
+[1m+++ /dev/null[m
+[36m@@ -1,2 +0,0 @@[m
+[31m-*.sol linguist-language=Solidity[m
+[31m-*.vy linguist-language=Python[m
+[1mdiff --git a/brownie/.gitignore b/brownie/.gitignore[m
+[1mdeleted file mode 100644[m
+[1mindex 898188a..0000000[m
+[1m--- a/brownie/.gitignore[m
+[1m+++ /dev/null[m
+[36m@@ -1,6 +0,0 @@[m
+[31m-__pycache__[m
+[31m-.env[m
+[31m-.history[m
+[31m-.hypothesis/[m
+[31m-build/[m
+[31m-reports/[m
+[1mdiff --git a/brownie/brownie-config.yaml b/brownie/brownie-config.yaml[m
+[1mdeleted file mode 100644[m
+[1mindex e69de29..0000000[m
+[1mdiff --git a/brownie/contracts/SimpleStorage.sol b/brownie/contracts/SimpleStorage.sol[m
+[1mdeleted file mode 100644[m
+[1mindex 7bb5971..0000000[m
+[1m--- a/brownie/contracts/SimpleStorage.sol[m
+[1m+++ /dev/null[m
+[36m@@ -1,29 +0,0 @@[m
+[31m-// SPDX-License-Identifier: MIT[m
+[31m-[m
+[31m-pragma solidity >=0.6.0 <0.9.0;[m
+[31m-[m
+[31m-contract SimpleStorage {[m
+[31m-    uint256 favoriteNumber;[m
+[31m-[m
+[31m-    // This is a comment![m
+[31m-    struct People {[m
+[31m-        uint256 favoriteNumber;[m
+[31m-        string name;[m
+[31m-    }[m
+[31m-[m
+[31m-    People[] public people;[m
+[31m-    mapping(string => uint256) public nameToFavoriteNumber;[m
+[31m-[m
+[31m-    function store(uint256 _favoriteNumber) public {[m
+[31m-        favoriteNumber = _favoriteNumber;[m
+[31m-    }[m
+[31m-[m
+[31m-    function retrieve() public view returns (uint256) {[m
+[31m-        return favoriteNumber;[m
+[31m-    }[m
+[31m-[m
+[31m-    function addPerson(string memory _name, uint256 _favoriteNumber) public {[m
+[31m-        people.push(People(_favoriteNumber, _name));[m
+[31m-        nameToFavoriteNumber[_name] = _favoriteNumber;[m
+[31m-    }[m
+[31m-}[m
+[1mdiff --git a/brownie/scripts/deploy.py b/brownie/scripts/deploy.py[m
+[1mdeleted file mode 100644[m
+[1mindex 579a4a8..0000000[m
+[1m--- a/brownie/scripts/deploy.py[m
+[1m+++ /dev/null[m
+[36m@@ -1,21 +0,0 @@[m
+[31m-from brownie import accounts, config, SimpleStorage[m
+[31m-[m
+[31m-[m
+[31m-def deploy_simple_storage():[m
+[31m-    account = accounts[0][m
+[31m-    #account = accounts.load("freecodecamp-account")[m
+[31m-    #account = accounts.add(os.getenv("PRIVATE_KEY"))[m
+[31m-    #account = accounts.add(config["wallets"]["from_key"]) #brwonie-config.yaml[m
+[31m-    simple_storage = SimpleStorage.deploy({"from": account})[m
+[31m-    print(account)[m
+[31m-[m
+[31m-[m
+[31m-def main():[m
+[31m-    deploy_simple_storage()[m
+[31m-[m
+[31m-#brownie accounts new freecodecamp-account[m
+[31m-#password og[m
+[31m-#brownie accounts list[m
+[31m-#brownie accounts delete[m
+[31m-[m
+[31m-#third way brownie-config.yaml from .env[m
+\ No newline at end of file[m
+[1mdiff --git a/brownie/tests/test_simple_storage.py b/brownie/tests/test_simple_storage.py[m
+[1mdeleted file mode 100644[m
+[1mindex e69de29..0000000[m
+[1mdiff --git a/brownie_fund_me-main b/brownie_fund_me-main[m
+[1m--- a/brownie_fund_me-main[m
+[1m+++ b/brownie_fund_me-main[m
+[36m@@ -1 +1 @@[m
+[31m-Subproject commit 083492d9d14ed2d45e65782ee22f43fd9cddca00[m
+[32m+[m[32mSubproject commit 083492d9d14ed2d45e65782ee22f43fd9cddca00-dirty[m
+[1mdiff --git a/brownie_simple_storage b/brownie_simple_storage[m
+[1m--- a/brownie_simple_storage[m
+[1m+++ b/brownie_simple_storage[m
+[36m@@ -1 +1 @@[m
+[31m-Subproject commit 16144a141bbe0f9825e5aa0a2af45785f951552c[m
+[32m+[m[32mSubproject commit 16144a141bbe0f9825e5aa0a2af45785f951552c-dirty[m
+[1mdiff --git a/erc20-brownie-py b/erc20-brownie-py[m
+[1m--- a/erc20-brownie-py[m
+[1m+++ b/erc20-brownie-py[m
+[36m@@ -1 +1 @@[m
+[31m-Subproject commit 65e2bc0ab5bb078b04726849b0b65d8ac7867322[m
+[32m+[m[32mSubproject commit 65e2bc0ab5bb078b04726849b0b65d8ac7867322-dirty[m
