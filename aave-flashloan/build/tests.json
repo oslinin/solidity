@@ -1,0 +1,28 @@
+{
+  "contracts": {
+    "FlashloanV1": "82627605bd89659a4109d2b83f1db77f57f81434",
+    "FlashloanV2": "1fcc3ac9bb1b85e10e7989d6b1af97c1d0650962",
+    "OpenZeppelin/openzeppelin-contracts@3.0.0/Address": "3b4158955f564edb18bd7a8ffdb49859c904f0b7",
+    "OpenZeppelin/openzeppelin-contracts@3.0.0/ERC20": "5f752f651d57bcdbb64c8d6e1654bb78df527095",
+    "OpenZeppelin/openzeppelin-contracts@3.0.0/SafeERC20": "3b4158955f564edb18bd7a8ffdb49859c904f0b7",
+    "OpenZeppelin/openzeppelin-contracts@3.0.0/SafeMath": "3b4158955f564edb18bd7a8ffdb49859c904f0b7",
+    "Withdrawable": "bc76cc728536072d68b9f655b25d41c330c93374"
+  },
+  "tests": {
+    "tests/test_flashloan_v1.py": {
+      "coverage": false,
+      "isolated": [],
+      "results": "EE",
+      "sha1": "95e44aff8a744e2931f0634d1d67e76e3dfcf2be",
+      "txhash": []
+    },
+    "tests/test_flashloan_v2.py": {
+      "coverage": false,
+      "isolated": [],
+      "results": "EEE",
+      "sha1": "51e859e1bdb519abc5fc5f7d08d95f040fa54fd0",
+      "txhash": []
+    }
+  },
+  "tx": {}
+}
