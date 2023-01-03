@@ -38,6 +38,6 @@ def main():
 
     print("finally")
 
-    feeding.feedOnKitty(0, 15,{"from":account})
-    for i in range(2):
-      print(f"zombie {i}: {feeding.zombies(i)} owner: {feeding.zombieToOwner(i)}")  
+    #feeding.feedOnKitty(0, 15,{"from":account})
+    #for i in range(2):
+    #  print(f"zombie {i}: {feeding.zombies(i)} owner: {feeding.zombieToOwner(i)}")  
