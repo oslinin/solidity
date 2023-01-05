@@ -1,6 +1,7 @@
-pragma solidity >=0.5.0 <0.6.0;
+pragma solidity 0.6.0;
 
-import "./ownable.sol";
+//import "./ownable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract ZombieFactory is Ownable {
 
@@ -8,6 +9,7 @@ contract ZombieFactory is Ownable {
 
     uint dnaDigits = 16;
     uint dnaModulus = 10 ** dnaDigits;
+    uint cooldownTime = 1 days;
 
     struct Zombie {
         string name;
@@ -24,7 +26,8 @@ contract ZombieFactory is Ownable {
         return(zombies.length);
     }
     function _createZombie(string memory _name, uint _dna) internal {
-        uint id = zombies.push(Zombie(_name, _dna)) - 1;
+        zombies.push(Zombie(_name, _dna, 0, uint32(now + cooldownTime))) ;
+        uint id = zombies.length - 1;
         zombieToOwner[id] = msg.sender;
         ownerZombieCount[msg.sender]++;
         emit NewZombie(id, _name, _dna);
