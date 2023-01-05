@@ -1,9 +1,9 @@
-pragma solidity 0.6.0;
+pragma solidity 0.5.0;
 
 import "./zombieFactory.sol";
 
-abstract contract KittyInterface {
-  function getKitty(uint256 _id) external virtual view returns (
+contract KittyInterface {
+  function getKitty(uint256 _id) external  view returns (
     bool isGestating,
     bool isReady,
     uint256 cooldownIndex,

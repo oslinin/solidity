@@ -3,7 +3,7 @@ dependencies:
   - OpenZeppelin/openzeppelin-contracts@3.0.1
 compiler:
   solc:
-    version: 0.6.0
+    #version: 0.6.0
     remappings:
       - '@chainlink=smartcontractkit/chainlink-brownie-contracts@1.1.1'
       - '@openzeppelin=OpenZeppelin/openzeppelin-contracts@3.0.1'
