@@ -1,5 +1,6 @@
 https://training.github.com/downloads/github-git-cheat-sheet.pdfs
 cd ~/Documents/solidity
+git pull origin main --rebase
 git add .
 git commit -m "new"
 
