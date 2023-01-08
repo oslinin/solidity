@@ -1,0 +1,33 @@
+week1
+function createRandomZombie(string memory _name) 
+Zombie[] public zombies;
+
+Week2 zombies attack
+Chapter 2: Mappings and Addresses  mapping (address => uint) public accountBalance; mapping (uint => string) userIdToName
+Chapter 3: Msg.sender  favoriteNumber[msg.sender] = _myNumber;
+Chapter 4: Require    require(keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked("Vitalik")));
+Chapter 5: Inheritance  contract BabyDoge is Doge {
+Chapter 6: Import   import "./someothercontract.sol";  contract newContract is SomeOtherContract {
+Chapter 7: Storage vs Memory (Data location)   Storage refers to variables stored permanently on the blockchain. Memory variables are temporary.
+Chapter 8: Zombie DNA
+Chapter 9: More on Function Visibility: public, private, internal, external
+Chapter 10: What Do Zombies Eat?  For our contract to talk to another contract on the blockchain that we don't own, first we need to define an interface.    
+Chapter 11: Using an Interface  address NumberInterfaceAddress = 0xab38... ;  NumberInterface numberContract = NumberInterface(NumberInterfaceAddress);
+Chapter 12: Handling Multiple Return Values  (a, b, c) = multipleReturns();
+Chapter 13: Bonus: Kitty Genes
+Chapter 14: Wrapping It Up
+
+Week3
+Chapter 1: Immutability of Contracts (parametrize Kitty address)
+Chapter 2: Ownable Contracts
+Chapter 3: onlyOwner Function Modifier
+Chapter 4: Gas  Struct packing to save gas
+Chapter 5: Time Units  lastUpdated = now   return (now >= (lastUpdated + 5 minutes));
+Chapter 6: Zombie Cooldowns  You can pass a storage pointer to a struct as an argument to a private or internal function
+    _triggerCooldown(Zombie storage _zombie) 
+Chapter 7: Public Functions & Security  internal function to not be abused.
+Chapter 8: More on Function Modifiers   function modifiers can also take arguments  modifier olderThan(uint _age, uint _userId) { require(age[_userId] >= _age); _; }
+Chapter 9: Zombie Modifiers
+Chapter 10: Saving Gas With 'View' Functions
+Chapter 11: Storage is Expensive
+Chapter 12: For Loops
