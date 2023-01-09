@@ -1,0 +1,17 @@
+{
+  "contracts": {
+    "ZombieFactory": "c024a82b92334f0d8169155749eb727410f88221",
+    "ZombieFactory0": "fe3ea96484766b4322ee82f8ec4806a52e4d0c09",
+    "ZombieFeeding": "a73018bd2b9f38af730c6a6237c09df14565e6db"
+  },
+  "tests": {
+    "tests/test_zombie.py": {
+      "coverage": false,
+      "isolated": false,
+      "results": "F",
+      "sha1": "402f6779a6bf22ab5c6480dd1dc1717c200dfaa6",
+      "txhash": []
+    }
+  },
+  "tx": {}
+}
