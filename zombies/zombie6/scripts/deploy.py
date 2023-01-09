@@ -1,16 +1,22 @@
 #from brownie import zombieFactory0, network, config, accounts
 #from brownie import accounts, ZombieFactory, ZombieFeeding
-from brownie import accounts, ZombieHelper
+from brownie import accounts, ZombieFactory
 from scripts.helpful_scripts import (
     get_account, deploy_contracts
 )
 
 
-
-
+def print1(feeding,acc):
+  for j in range(3):
+      for i in feeding.getZombiesByOwner(acc[j]):
+        print(f"zombie {i}: {feeding.zombies(i)} owner: {feeding.zombieToOwner(i)}")  
+    
 def main():
-    acc = [get_account(x) for x in (0,1)]
+    acc  = get_account() 
+    feeding = ZombieFactory.deploy({"from":acc})
 
+    print(feeding.getRandomNumber({"from":acc}))
+""" 
     feeding = deploy_contracts(acc[0])   
     feeding.createRandomZombie("Bob", {"from":acc[1]})
 
@@ -35,4 +41,7 @@ def main():
     for i in feeding.getZombiesByOwner(acc[1]):
       print(f"zombie {i}: {feeding.zombies(i)} owner: {feeding.zombieToOwner(i)}")  
     
-
+    feeding.approve(acc[2], 0)
+    feeding.transferFrom(acc[0], acc[2], 0)
+    print1(feeding, acc);
+ """

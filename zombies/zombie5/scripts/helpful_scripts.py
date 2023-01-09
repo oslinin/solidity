@@ -1,6 +1,6 @@
 
 from brownie import (
-    accounts, ZombieAttack,
+    accounts, ZombieOwnership,
     network,
     config,
     # MockV3Aggregator,
@@ -41,14 +41,14 @@ def deploy_contracts(account):
   #   zz = ZombieFactory[-1]
   #   print(f"Contract found on  {zz.address}")   
   
-  if len(ZombieAttack)==0:
+  if len(ZombieOwnership)==0:
     print("deploying first time")
-    feeding = ZombieAttack.deploy({"from":account})
+    feeding = ZombieOwnership.deploy({"from":account})
     feeding.setKittyContractAddress("0x06012c8cf97BEaD5deAe237070F9587f8E7A266d",{"from":account})
     feeding.createRandomZombie("oleg", {"from":account})
     print(f"ZombieFeeding deployed to {feeding.address}")
   else:
     print("found Zombiefeeding, returning it")
-    feeding = ZombieAttack[-1]
+    feeding = ZombieOwnership[-1]
     print("end deploy_contracts()")
   return(feeding)

@@ -13,7 +13,7 @@ def main():
     feeding = deploy_contracts(account)   
     feeding.feedOnKitty(0, 15,{"from":account})
     feeding.changeName(1, "Bob the zombie")
-    
+
     for i in feeding.getZombiesByOwner(account):
       print(f"zombie {i}: {feeding.zombies(i)} owner: {feeding.zombieToOwner(i)}")  
     

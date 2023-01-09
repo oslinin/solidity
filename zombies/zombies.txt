@@ -31,3 +31,55 @@ Chapter 9: Zombie Modifiers
 Chapter 10: Saving Gas With 'View' Functions
 Chapter 11: Storage is Expensive
 Chapter 12: For Loops
+
+Week4
+Chapter 1: Payable modifier
+Chapter 2: Withdraws    contract GetPaid is Ownable {
+                            function withdraw() external onlyOwner {
+                                address payable _owner = address(uint160(owner()));
+                                _owner.transfer(address(this).balance);}}
+Chapter 4: Random Numbers  If I were running a node, I could publish a transaction only to my own node and not share it. I could then run the coin flip function to see if I won — and if I lost, choose not to include that transaction in the next block I'm solving. I could keep doing this indefinitely until I finally won the coin flip and solved the next block, and profit.                                
+Chapter 5: Zombie Fightin'  
+Chapter 6: Refactoring Common Logic
+Chapter 7: More Refactoring
+Chapter 8: Back to Attack!
+Chapter 9: Zombie Wins and Losses
+Chapter 10: Zombie Victory
+
+Week5: NFT
+Chapter 1: Tokens on Ethereum Internally the smart contract usually has a mapping, mapping(address => uint256) balances, that keeps track of how much balance each address has.
+Chapter 2: ERC721 Standard, Multiple Inheritance
+                contract ERC721 {
+                event Transfer(address indexed _from, address indexed _to, uint256 indexed _tokenId);
+                event Approval(address indexed _owner, address indexed _approved, uint256 indexed _tokenId);
+
+                function balanceOf(address _owner) external view returns (uint256);
+                function ownerOf(uint256 _tokenId) external view returns (address);
+                function transferFrom(address _from, address _to, uint256 _tokenId) external payable;
+                function approve(address _approved, uint256 _tokenId) external payable;
+                }
+Chapter 3: balanceOf & ownerOf
+Chapter 4: Refactoring  our modifier needs to be onlyOnwerOF, not ownerOf
+Chapter 5: ERC721: Transfer Logic:  owner transfers, or owner approves and either party transfers.
+Chapter 6: ERC721: Transfer Cont'd
+Chapter 7: ERC721: Approve
+Chapter 8: ERC721: Approve
+Chapter 9: Preventing Overflows  OpenZeppelin has created a library called SafeMath
+Chapter 10: SafeMath Part 2
+Chapter 11: SafeMath Part 3
+Chapter 12: SafeMath Part 4
+Chapter 13: Comments@ title and @author are straightforward.
+    @notice explains to a user what the contract / function does. @dev is for explaining extra details to developers.
+    @param and @return are for describing what each parameter and return value of a function are for.
+    
+Week6: Chainlink
+Chapter 1: Chainlink Data Feeds Introduction
+Chapter 2: Importing from NPM and Github  AggregatorV3Interface has price latestRoundData()
+Chapter 3: AggregatorV3Interface
+Chapter 4: Working with Tuples
+Chapter 5: Chainlink Data Feeds Decimals
+Chapter 6: Chainlink Data Feeds References //https://docs.chain.link/getting-started/conceptual-overview
+Chapter 7: Chainlink VRF Introduction  ls /home/oleg/.brownie/packages/smartcontractkit/chainlink-brownie-contracts@1.1.1/contracts/src/v0.6/interfaces/
+Chapter 8: Constructor in a constructor
+Chapter 9: Define our Chainlink VRF variables
+
