@@ -3,12 +3,23 @@ from brownie import (
     accounts, 
     network,
     config,
-    # MockV3Aggregator,
+    MockV3Aggregator,
     # VRFCoordinatorMock,
     # LinkToken,
     # Contract,
     #interface,
 )
+
+def deploy_mocks():
+    """
+    Use this script if you want to deploy mocks to a testnet
+    """
+    print(f"The active network is {network.show_active()}")
+    print("Deploying Mocks...")
+    account = get_account()
+    MockV3Aggregator.deploy(DECIMALS, INITIAL_VALUE, {"from": account})
+    print("Mocks Deployed!")
+
 
 FORKED_LOCAL_ENVIRONMENTS = ["mainnet-fork", "mainnet-fork-dev"]
 LOCAL_BLOCKCHAIN_ENVIRONMENTS = ["development", "ganache-local"]
@@ -90,6 +101,3 @@ def deploy_contracts(account):
     feeding = ZombieOwnership[-1]
     print("end deploy_contracts()")
   return(feeding)
-
-
-  
