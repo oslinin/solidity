@@ -10,12 +10,14 @@
         "lint:fix": "yarn solhint 'contracts/**/*.sol' --fix",
         "format": "yarn prettier --write .",
         "compile": "yarn hardhat compile",
+        "deploy0": "hh deploy",
         "deploy": "hh deploy --network sepolia",
+        "console0": "hh console",
         "console": "hh console --network sepolia",
         "makeVRFCoordinator": "hh run scripts/makeVRFCoordinator.js --network sepolia",
         "upkeep": "hh run scripts/upkeep.js --network sepolia",
         "fundVRF": "hh run scripts/fundVRFCoordinator.js --network sepolia",
-        "reqVRF": "hh run scripts/requestRandomWords.js --network sepolia"
+        "VRF": "hh run scripts/requestRandomWords.js --network sepolia"
     },
     "license": "MIT",
     "devDependencies": {
