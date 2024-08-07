@@ -10,7 +10,12 @@
         "format": "yarn prettier --write .",
         "coverage": "yarn hardhat coverage",
         "deploy0": "hh deploy",
-        "deploy": "hh deploy --network sepolia"
+        "makeVRFCoordinator": "hh run scripts/makeVRFCoordinator.js --network sepolia",
+        "fundVRF": "hh run scripts/fundVRFCoordinator.js --network sepolia",
+        "deploy": "hh deploy --network sepolia",
+        "addConsumer": "hh run scripts/addConsumer.js --network sepolia",
+        "testvrf": "hh run scripts/testvrf.js --network sepolia",
+        "upkeep": "hh run scripts/performUpkeep.js --network sepolia"
     },
     "license": "MIT",
     "devDependencies": {
@@ -33,7 +38,7 @@
         "@chainlink/contracts": "^0.8.0",
         "@chainlink/test-helpers": "^0.0.7-alpha",
         "@chainlink/token": "^1.1.0",
-        "@openzeppelin/contracts": "^4.5.0",
+        "@openzeppelin/contracts": "^4.9.6",
         "babel-eslint": "^10.1.0",
         "dotenv": "^10.0.0"
     },

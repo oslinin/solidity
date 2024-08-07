@@ -35,7 +35,8 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
 
           describe("enterRaffle", function () {
               it("reverts when you don't pay enough", async () => {
-                  await expect(raffle.enterRaffle()).to.be.revertedWith( // is reverted when not paid enough or raffle is not open
+                  await expect(raffle.enterRaffle()).to.be.revertedWith(
+                      // is reverted when not paid enough or raffle is not open
                       "Raffle__SendMoreToEnterRaffle"
                   )
               })
@@ -45,7 +46,8 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
                   assert.equal(player.address, contractPlayer)
               })
               it("emits event on enter", async () => {
-                  await expect(raffle.enterRaffle({ value: raffleEntranceFee })).to.emit( // emits RaffleEnter event if entered to index player(s) address
+                  await expect(raffle.enterRaffle({ value: raffleEntranceFee })).to.emit(
+                      // emits RaffleEnter event if entered to index player(s) address
                       raffle,
                       "RaffleEnter"
                   )
@@ -57,7 +59,8 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
                   await network.provider.request({ method: "evm_mine", params: [] })
                   // we pretend to be a keeper for a second
                   await raffle.performUpkeep([]) // changes the state to calculating for our comparison below
-                  await expect(raffle.enterRaffle({ value: raffleEntranceFee })).to.be.revertedWith( // is reverted as raffle is calculating
+                  await expect(raffle.enterRaffle({ value: raffleEntranceFee })).to.be.revertedWith(
+                      // is reverted as raffle is calculating
                       "Raffle__RaffleNotOpen"
                   )
               })
@@ -99,11 +102,11 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
                   await raffle.enterRaffle({ value: raffleEntranceFee })
                   await network.provider.send("evm_increaseTime", [interval.toNumber() + 1])
                   await network.provider.request({ method: "evm_mine", params: [] })
-                  const tx = await raffle.performUpkeep("0x") 
+                  const tx = await raffle.performUpkeep("0x")
                   assert(tx)
               })
               it("reverts if checkup is false", async () => {
-                  await expect(raffle.performUpkeep("0x")).to.be.revertedWith( 
+                  await expect(raffle.performUpkeep("0x")).to.be.revertedWith(
                       "Raffle__UpkeepNotNeeded"
                   )
               })
@@ -135,17 +138,18 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
                   ).to.be.revertedWith("nonexistent request")
               })
 
-            // This test is too big...
-            // This test simulates users entering the raffle and wraps the entire functionality of the raffle
-            // inside a promise that will resolve if everything is successful.
-            // An event listener for the WinnerPicked is set up
-            // Mocks of chainlink keepers and vrf coordinator are used to kickoff this winnerPicked event
-            // All the assertions are done once the WinnerPicked event is fired
+              // This test is too big...
+              // This test simulates users entering the raffle and wraps the entire functionality of the raffle
+              // inside a promise that will resolve if everything is successful.
+              // An event listener for the WinnerPicked is set up
+              // Mocks of chainlink keepers and vrf coordinator are used to kickoff this winnerPicked event
+              // All the assertions are done once the WinnerPicked event is fired
               it("picks a winner, resets, and sends money", async () => {
                   const additionalEntrances = 3 // to test
                   const startingIndex = 2
                   let startingBalance
-                  for (let i = startingIndex; i < startingIndex + additionalEntrances; i++) { // i = 2; i < 5; i=i+1
+                  for (let i = startingIndex; i < startingIndex + additionalEntrances; i++) {
+                      // i = 2; i < 5; i=i+1
                       raffle = raffleContract.connect(accounts[i]) // Returns a new instance of the Raffle contract connected to player
                       await raffle.enterRaffle({ value: raffleEntranceFee })
                   }
@@ -153,7 +157,8 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
 
                   // This will be more important for our staging tests...
                   await new Promise(async (resolve, reject) => {
-                      raffle.once("WinnerPicked", async () => { // event listener for WinnerPicked
+                      raffle.once("WinnerPicked", async () => {
+                          // event listener for WinnerPicked
                           console.log("WinnerPicked event fired!")
                           // assert throws an error if it fails, so we need to wrap
                           // it in a try/catch so that the promise returns event
@@ -169,7 +174,7 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
                               assert.equal(recentWinner.toString(), accounts[2].address)
                               assert.equal(raffleState, 0)
                               assert.equal(
-                                  winnerBalance.toString(), 
+                                  winnerBalance.toString(),
                                   startingBalance // startingBalance + ( (raffleEntranceFee * additionalEntrances) + raffleEntranceFee )
                                       .add(
                                           raffleEntranceFee
@@ -179,21 +184,21 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
                                       .toString()
                               )
                               assert(endingTimeStamp > startingTimeStamp)
-                              resolve() // if try passes, resolves the promise 
-                          } catch (e) { 
+                              resolve() // if try passes, resolves the promise
+                          } catch (e) {
                               reject(e) // if try fails, rejects the promise
                           }
                       })
 
                       // kicking off the event by mocking the chainlink keepers and vrf coordinator
                       try {
-                        const tx = await raffle.performUpkeep("0x")
-                        const txReceipt = await tx.wait(1)
-                        startingBalance = await accounts[2].getBalance()
-                        await vrfCoordinatorV2Mock.fulfillRandomWords(
-                            txReceipt.events[1].args.requestId,
-                            raffle.address
-                        )
+                          const tx = await raffle.performUpkeep("0x")
+                          const txReceipt = await tx.wait(1)
+                          startingBalance = await accounts[2].getBalance()
+                          await vrfCoordinatorV2Mock.fulfillRandomWords(
+                              txReceipt.events[1].args.requestId,
+                              raffle.address
+                          )
                       } catch (e) {
                           reject(e)
                       }

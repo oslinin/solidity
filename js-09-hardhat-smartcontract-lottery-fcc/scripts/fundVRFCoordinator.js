@@ -1,5 +1,4 @@
 const { ethers } = require("hardhat")
-const { verify } = require("../utils/verify")
 
 async function fundCoordinator() {
     const { deploy, log } = deployments

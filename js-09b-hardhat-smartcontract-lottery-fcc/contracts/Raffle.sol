@@ -6,9 +6,9 @@ import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/vrf/VRFConsumerBaseV2.sol";
 // In the video, we use the following import statement, but newer versions of the Chainlink
 // contracts have a different file structure.
-// import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
+//import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 import "@chainlink/contracts/src/v0.8/automation/interfaces/AutomationCompatibleInterface.sol";
-import "hardhat/console.sol";
+//import "hardhat/console.sol" as Console;
 
 /* Errors */
 error Raffle__UpkeepNotNeeded(uint256 currentBalance, uint256 numPlayers, uint256 raffleState);
@@ -24,19 +24,21 @@ error Raffle__RaffleNotOpen();
  */
 contract Raffle is VRFConsumerBaseV2, AutomationCompatibleInterface {
     /* Type declarations */
+    address vrfCoordinator;
+    uint64 private immutable i_subscriptionId;
+    bytes32 private immutable i_gasLane;
+
+    VRFCoordinatorV2Interface private immutable i_vrfCoordinator;
+    uint32 private immutable i_callbackGasLimit;
+    uint16 private constant REQUEST_CONFIRMATIONS = 3;
+    uint32 private constant NUM_WORDS = 1;
+
     enum RaffleState {
         OPEN,
         CALCULATING
     }
     /* State variables */
     // Chainlink VRF Variables
-
-    VRFCoordinatorV2Interface private immutable i_vrfCoordinator;
-    uint64 private immutable i_subscriptionId;
-    bytes32 private immutable i_gasLane;
-    uint32 private immutable i_callbackGasLimit;
-    uint16 private constant REQUEST_CONFIRMATIONS = 3;
-    uint32 private constant NUM_WORDS = 1;
 
     // Lottery Variables
     uint256 private immutable i_interval;
@@ -60,6 +62,7 @@ contract Raffle is VRFConsumerBaseV2, AutomationCompatibleInterface {
         uint256 entranceFee,
         uint32 callbackGasLimit
     ) VRFConsumerBaseV2(vrfCoordinatorV2) {
+        vrfCoordinator = vrfCoordinatorV2;
         i_vrfCoordinator = VRFCoordinatorV2Interface(vrfCoordinatorV2);
         i_gasLane = gasLane;
         i_interval = interval;
@@ -94,12 +97,9 @@ contract Raffle is VRFConsumerBaseV2, AutomationCompatibleInterface {
      * 3. The contract has ETH.
      * 4. Implicity, your subscription is funded with LINK.
      */
-    function checkUpkeep(bytes memory /* checkData */ )
-        public
-        view
-        override
-        returns (bool upkeepNeeded, bytes memory /* performData */ )
-    {
+    function checkUpkeep(
+        bytes memory /* checkData */
+    ) public view override returns (bool upkeepNeeded, bytes memory /* performData */) {
         bool isOpen = RaffleState.OPEN == s_raffleState;
         bool timePassed = ((block.timestamp - s_lastTimeStamp) > i_interval);
         bool hasPlayers = s_players.length > 0;
@@ -112,16 +112,30 @@ contract Raffle is VRFConsumerBaseV2, AutomationCompatibleInterface {
      * @dev Once `checkUpkeep` is returning `true`, this function is called
      * and it kicks off a Chainlink VRF call to get a random winner.
      */
-    function performUpkeep(bytes calldata /* performData */ ) external override {
-        (bool upkeepNeeded,) = checkUpkeep("");
+    function performUpkeep(bytes calldata /* performData */) external override {
+        (bool upkeepNeeded, ) = checkUpkeep("");
+
         // require(upkeepNeeded, "Upkeep not needed");
         if (!upkeepNeeded) {
-            revert Raffle__UpkeepNotNeeded(address(this).balance, s_players.length, uint256(s_raffleState));
+            revert Raffle__UpkeepNotNeeded(
+                address(this).balance,
+                s_players.length,
+                uint256(s_raffleState)
+            );
         }
+
         s_raffleState = RaffleState.CALCULATING;
+        // console.log("s_raffleState %s", s_raffleState);
+
         uint256 requestId = i_vrfCoordinator.requestRandomWords(
-            i_gasLane, i_subscriptionId, REQUEST_CONFIRMATIONS, i_callbackGasLimit, NUM_WORDS
+            i_gasLane,
+            i_subscriptionId,
+            REQUEST_CONFIRMATIONS,
+            i_callbackGasLimit,
+            NUM_WORDS
         );
+        // console.log("requestId", requestId);
+
         // Quiz... is this redundant?
         emit RequestedRaffleWinner(requestId);
     }
@@ -130,7 +144,10 @@ contract Raffle is VRFConsumerBaseV2, AutomationCompatibleInterface {
      * @dev This is the function that Chainlink VRF node
      * calls to send the money to the random winner.
      */
-    function fulfillRandomWords(uint256, /* requestId */ uint256[] memory randomWords) internal override {
+    function fulfillRandomWords(
+        uint256,
+        /* requestId */ uint256[] memory randomWords
+    ) internal override {
         // s_players size 10
         // randomNumber 202
         // 202 % 10 ? what's doesn't divide evenly into 202?
@@ -140,10 +157,11 @@ contract Raffle is VRFConsumerBaseV2, AutomationCompatibleInterface {
         uint256 indexOfWinner = randomWords[0] % s_players.length;
         address payable recentWinner = s_players[indexOfWinner];
         s_recentWinner = recentWinner;
+        // console.log("s_recentWinner", s_recentWinner);
         s_players = new address payable[](0);
         s_raffleState = RaffleState.OPEN;
         s_lastTimeStamp = block.timestamp;
-        (bool success,) = recentWinner.call{value: address(this).balance}("");
+        (bool success, ) = recentWinner.call{value: address(this).balance}("");
         // require(success, "Transfer failed");
         if (!success) {
             revert Raffle__TransferFailed();
@@ -188,5 +206,26 @@ contract Raffle is VRFConsumerBaseV2, AutomationCompatibleInterface {
 
     function getNumberOfPlayers() public view returns (uint256) {
         return s_players.length;
+    }
+
+    function getvrfCoordinator() public view returns (address) {
+        return vrfCoordinator;
+    }
+
+    function checkVRFCoordinator() public view returns (bool) {
+        try i_vrfCoordinator.getRequestConfig() returns (uint16, uint32, bytes32[] memory) {
+            return true;
+        } catch Error(string memory reason) {
+            revert(string(abi.encodePacked("VRF Coordinator check failed: ", reason)));
+        } catch (bytes memory lowLevelData) {
+            revert(
+                string(
+                    abi.encodePacked(
+                        "VRF Coordinator check failed with low-level data: ",
+                        lowLevelData
+                    )
+                )
+            );
+        }
     }
 }
