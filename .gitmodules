@@ -19,3 +19,9 @@
 [submodule "foundry-07-fundme/lib/chainlink-brownie-contracts"]
 	path = foundry-07-fundme/lib/chainlink-brownie-contracts
 	url = https://github.com/smartcontractkit/chainlink-brownie-contracts
+[submodule "foundry-07-fundme/lib/foundry-devops"]
+	path = foundry-07-fundme/lib/foundry-devops
+	url = https://github.com/cyfrin/foundry-devops
+[submodule "foundry-07-fundme/lib/forge-std"]
+	path = foundry-07-fundme/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
