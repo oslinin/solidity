@@ -16,3 +16,6 @@
 [submodule "js-10-nexjs-smartcontract-lottery-fcc"]
 	path = js-10-nexjs-smartcontract-lottery-fcc
 	url = https://github.com/PatrickAlphaC/nextjs-smartcontract-lottery-fcc.git
+[submodule "foundry-07-fundme/lib/chainlink-brownie-contracts"]
+	path = foundry-07-fundme/lib/chainlink-brownie-contracts
+	url = https://github.com/smartcontractkit/chainlink-brownie-contracts
