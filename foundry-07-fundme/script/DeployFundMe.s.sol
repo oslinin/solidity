@@ -8,11 +8,13 @@ import {FundMe} from "../src/FundMe.sol";
 contract DeployFundMe is Script {
     function deployFundMe() public returns (FundMe, HelperConfig) {
         HelperConfig helperConfig = new HelperConfig(); // This comes with our mocks!
-        address priceFeed = helperConfig.getConfigByChainId(block.chainid).priceFeed;
+        address priceFeed = helperConfig
+            .getConfigByChainId(block.chainid)
+            .priceFeed;
 
-        vm.startBroadcast();
+        vm.startBroadcast(); //real transactions
         FundMe fundMe = new FundMe(priceFeed);
-        vm.stopBroadcast();
+        vm.stopBroadcast(); //end real transactions
         return (fundMe, helperConfig);
     }
 
