@@ -6,7 +6,7 @@ import {DeployFundMe} from "../../script/DeployFundMe.s.sol";
 import {FundMe} from "../../src/FundMe.sol";
 import {HelperConfig, CodeConstants} from "../../script/HelperConfig.s.sol";
 import {Test} from "forge-std/Test.sol";
-import "foundry-rs/forge-std";
+// import "foundry-rs/forge-std";
 import {console} from "forge-std/console.sol";
 import "foundry-rs/forge-std/0.1.0/console.sol";
 import {StdCheats} from "forge-std/StdCheats.sol";
