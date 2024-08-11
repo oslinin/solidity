@@ -14,6 +14,12 @@
     - [prank](#prank)
     - [tests](#tests)
     - [etc](#etc)
+    - [git](#git)
+  - [Foundry-08-html-fund-me](#foundry-08-html-fund-me)
+  - [Foundry-09-raffle](#foundry-09-raffle)
+    - [VRF](#vrf)
+    - [Keeper](#keeper)
+    - [tests](#tests-1)
 
 # Vscode/markdown
 
@@ -29,9 +35,13 @@ TOC: extension Markdown All In One; ctrl+shift+P; type create TOC
 
 Ctrl+P: file viewer; Ctrl+Shift+P: command palette
 
+code <file> //edit file
+
 # JS
 
 # Foundry
+
+https://github.com/Cyfrin/foundry-full-course-cu?tab=readme-ov-file
 
 ## Foundry-07-fundme
 
@@ -192,3 +202,59 @@ startPrank/stopPrank like broadcast
 readme
 quick start
 use templtes
+
+### git
+
+git init -b main
+git status
+git add .
+git log
+git commit -m "dfkj"
+
+//github
+//make repository
+git config user.name ""
+git remote add origin <url>
+git remote -v
+git push -u origin main
+
+git clone
+
+## Foundry-08-html-fund-me
+
+git clone https://github.com/Cyfrin/html-fund-me-cu foundry-08-fundme-html
+cd foundry-08-fundme-html; rm -rf .git
+
+install live server
+
+right click > inpect(Q) > console
+window
+window.ethereum
+
+## Foundry-09-raffle
+
+git clone https://github.com/Cyfrin/foundry-smart-contract-lottery-cu foundry-09-smartcontract-lottery
+cd
+
+### VRF
+
+https://docs.chain.link/vrf/v2/subscription/examples/get-a-random-number
+https://docs.chain.link/vrf/v2-5/subscription/get-a-random-number
+
+override: virtual in inheritence. VRFConsumerBaseV2
+function fulfillRandomWords(uint256,uint256[] calldata randomWords
+) internal override
+VRFConsumerBaseV2 takes coordinator
+
+### Keeper
+
+https://automation.chain.link/
+https://chrontab.guru human readable output from chron tabs
+
+### tests
+
+CEI: Checks, Effects, Interactions
+//checks: requires. more gas efficient to revert early
+//effect our own contract
+//interactions: external with other contracts. (avoid reentrancy attacks)
+put events before interactions.
