@@ -176,10 +176,6 @@ contract Raffle is VRFConsumerBaseV2, AutomationCompatibleInterface {
         return s_raffleState;
     }
 
-    function getNumWords() public pure returns (uint256) {
-        return NUM_WORDS;
-    }
-
     function getRequestConfirmations() public pure returns (uint256) {
         return REQUEST_CONFIRMATIONS;
     }
@@ -227,5 +223,24 @@ contract Raffle is VRFConsumerBaseV2, AutomationCompatibleInterface {
                 )
             );
         }
+    }
+
+    function getGasLane() public view returns (bytes32) {
+        return i_gasLane;
+    }
+
+    // Getter function for i_subscriptionId
+    function getSubscriptionId() public view returns (uint64) {
+        return i_subscriptionId;
+    }
+
+    // Getter function for i_callbackGasLimit
+    function getCallbackGasLimit() public view returns (uint32) {
+        return i_callbackGasLimit;
+    }
+
+    // Getter function for NUM_WORDS
+    function getNumWords() public pure returns (uint32) {
+        return NUM_WORDS;
     }
 }

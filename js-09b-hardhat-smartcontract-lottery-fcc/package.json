@@ -14,7 +14,10 @@
         "fundVRF": "hh run scripts/fundVRFCoordinator.js --network sepolia",
         "deploy": "hh deploy --network sepolia",
         "addConsumer": "hh run scripts/addConsumer.js --network sepolia",
+        "dropConsumer": "hh run scripts/dropConsumer.js --network sepolia",
+        "getbalance": "hh run scripts/getbalance.js --network sepolia",
         "testvrf": "hh run scripts/testvrf.js --network sepolia",
+        "requestRandomWords": "hh run scripts/requestRandomWords.js --network sepolia",
         "upkeep": "hh run scripts/performUpkeep.js --network sepolia"
     },
     "license": "MIT",

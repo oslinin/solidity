@@ -16,6 +16,7 @@ developmentChains.includes(network.name)
           describe("fulfillRandomWords", function () {
               it("works with live Chainlink Keepers and Chainlink VRF, we get a random winner", async function () {
                   // enter the raffle
+                  this.timeout(1200000); //60*10*1000 milliseconds = 10 minutes
                   console.log("Setting up test...")
                   const startingTimeStamp = await raffle.getLastTimeStamp()
                   const accounts = await ethers.getSigners()
@@ -48,10 +49,12 @@ developmentChains.includes(network.name)
                           }
                       })
                       // Then entering the raffle
-                      //   console.log("Entering Raffle...")
-                      //   const tx = await raffle.enterRaffle({ value: raffleEntranceFee })
-                      //   await tx.wait(1)
+                      
+                    //   console.log("Entering Raffle...")
+                    //   const tx = await raffle.enterRaffle({ value: raffleEntranceFee })
+                    //   await tx.wait(1)
                       console.log("Ok, time to wait...")
+                      
                       const winnerStartingBalance = await accounts[0].getBalance()
 
                       // and this code WONT complete until our listener has finished listening!

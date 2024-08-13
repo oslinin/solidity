@@ -1,6 +1,6 @@
 const { ethers } = require("hardhat")
 
-async function main() {
+async function getbalance() {
     const [deployer] = await ethers.getSigners()
 
     console.log("Checking LINK balance of:", deployer.address)
@@ -33,7 +33,7 @@ async function main() {
     console.log("LINK Balance:", ethers.utils.formatUnits(balance, 18))
 }
 
-main()
+getbalance()
     .then(() => process.exit(0))
     .catch((error) => {
         console.error(error)

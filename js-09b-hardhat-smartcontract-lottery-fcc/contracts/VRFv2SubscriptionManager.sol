@@ -34,8 +34,7 @@ contract VRFv2SubscriptionManager is VRFConsumerBaseV2 {
     // The gas lane to use, which specifies the maximum gas price to bump to.
     // For a list of available gas lanes on each network,
     // see https://docs.chain.link/docs/vrf-contracts/#configurations
-    bytes32 keyHash =
-        0x474e34a077df58807dbe9c96d3c009b23b3c6d0cce433e59bbf5b34f823bc56c;
+    bytes32 keyHash = 0x474e34a077df58807dbe9c96d3c009b23b3c6d0cce433e59bbf5b34f823bc56c;
 
     // A reasonable default is 100000, but this value could be different
     // on other networks.
@@ -91,11 +90,7 @@ contract VRFv2SubscriptionManager is VRFConsumerBaseV2 {
     // Assumes this contract owns link.
     // 1000000000000000000 = 1 LINK
     function topUpSubscription(uint256 amount) external onlyOwner {
-        LINKTOKEN.transferAndCall(
-            address(COORDINATOR),
-            amount,
-            abi.encode(s_subscriptionId)
-        );
+        LINKTOKEN.transferAndCall(address(COORDINATOR), amount, abi.encode(s_subscriptionId));
     }
 
     function addConsumer(address consumerAddress) external onlyOwner {
@@ -123,5 +118,30 @@ contract VRFv2SubscriptionManager is VRFConsumerBaseV2 {
     modifier onlyOwner() {
         require(msg.sender == s_owner);
         _;
+    }
+
+    // Getter function for keyHash
+    function getKeyHash() public view returns (bytes32) {
+        return keyHash;
+    }
+
+    // Getter function for s_subscriptionId
+    function getSubscriptionId() public view returns (uint64) {
+        return s_subscriptionId;
+    }
+
+    // Getter function for requestConfirmations
+    function getRequestConfirmations() public view returns (uint16) {
+        return requestConfirmations;
+    }
+
+    // Getter function for callbackGasLimit
+    function getCallbackGasLimit() public view returns (uint32) {
+        return callbackGasLimit;
+    }
+
+    // Getter function for numWords
+    function getNumWords() public view returns (uint32) {
+        return numWords;
     }
 }
