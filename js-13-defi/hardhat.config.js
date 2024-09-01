@@ -30,18 +30,15 @@ module.exports = {
         localhost: {
             chainId: 31337,
         },
-        goerli: {
-            url: GOERLI_RPC_URL,
-            accounts: [PRIVATE_KEY],
-            chainId: 5,
-            blockConfirmations: 6,
-        },
+        // goerli: {https://github.com/smartcontractkit/full-blockchain-solidity-course-js/discussions/2638
+        //     url: GOERLI_RPC_URL,
+        //     accounts: [PRIVATE_KEY],
+        //     chainId: 5,
+        //     blockConfirmations: 6,
+        // },
     },
     solidity: {
         compilers: [
-            {
-                version: "0.8.7",
-            },
             {
                 version: "0.8.8",
             },
@@ -49,7 +46,7 @@ module.exports = {
                 version: "0.6.12",
             },
             {
-                version: "0.4.22",
+                version: "0.4.19",
             },
         ],
     },

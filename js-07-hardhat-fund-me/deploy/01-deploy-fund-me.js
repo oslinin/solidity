@@ -1,7 +1,20 @@
 const { network } = require("hardhat")
+
+// const helperconfig = require("../helper-hardhat-config")
+// const networkconfig = helperconfig.networkConfig
 const { networkConfig, developmentChains } = require("../helper-hardhat-config")
 const { verify } = require("../utils/verify")
 require("dotenv").config()
+
+
+// async function deployFunc(hre){
+//         console.log("HI")
+// }
+// module.exports.default = deployFunc
+
+// const{} { getNamedAccounts, deployments } = 
+// hre.getNamedAccounts
+// hre.deployments
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
     const { deploy, log } = deployments

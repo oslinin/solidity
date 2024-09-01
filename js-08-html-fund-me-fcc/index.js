@@ -13,7 +13,8 @@ balanceButton.onclick = getBalance
 async function connect() {
   if (typeof window.ethereum !== "undefined") {
     try {
-      await ethereum.request({ method: "eth_requestAccounts" }) //https://docs.metamask.io/wallet/reference/eth_requestaccounts/
+      //https://docs.metamask.io/wallet/reference/eth_requestaccounts/{
+      await ethereum.request({ method: "eth_requestAccounts" })
     } catch (error) {
       console.log(error)
     }
@@ -68,6 +69,7 @@ async function getBalance() {
   if (typeof window.ethereum !== "undefined") {
     const provider = new ethers.providers.Web3Provider(window.ethereum)
     try {
+      console.log(`const balance = await provider.getBalance(${contractAddress})`)
       const balance = await provider.getBalance(contractAddress)
       console.log(ethers.utils.formatEther(balance))
     } catch (error) {

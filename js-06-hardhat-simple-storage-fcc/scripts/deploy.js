@@ -3,7 +3,8 @@ const { ethers, run, network } = require("hardhat")
 
 // async main
 async function main() {
-  const SimpleStorageFactory = await ethers.getContractFactory("SimpleStorage")
+  const SimpleStorageFactory = await 
+    ethers.getContractFactory("SimpleStorage")
   console.log("Deploying contract...")
   const simpleStorage = await SimpleStorageFactory.deploy()
 
@@ -41,7 +42,7 @@ async function main() {
 // async function verify(contractAddress, args) {
 const verify = async (contractAddress, args) => {
   console.log("Verifying contract...")
-  try {
+  try { //in case already verified 
     await run("verify:verify", {
       address: contractAddress,
       constructorArguments: args,

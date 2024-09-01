@@ -18,21 +18,29 @@ async function main() {
     //   process.env.PRIVATE_KEY_PASSWORD
     // );
     // wallet = wallet.connect(provider);
-    const abi = fs.readFileSync("./SimpleStorage_sol_SimpleStorage.abi", "utf8")
+    //from compiler
+    const abi = fs.readFileSync("./SimpleStorage_sol_SimpleStorage.abi", "utf8") 
     const binary = fs.readFileSync(
         "./SimpleStorage_sol_SimpleStorage.bin",
         "utf8"
     )
-    const contractFactory = new ethers.ContractFactory(abi, binary, wallet)
+    const contractFactory = new ethers.ContractFactory(abi, binary, wallet)//factory in ehters is used to deploy
     console.log("Deploying, please wait...")
     const contract = await contractFactory.deploy()
+    console.log("Deployed!")
     // const contract = await contractFactory.deploy({ gasPrice: 100000000000 })
-    const deploymentReceipt = await contract.deployTransaction.wait(1)
-    console.log(`Contract deployed to ${contract.address}`)
-    // console.log("Here is the transaction:")
+    // const deploymentReceipt = await contract.deployTransaction.wait(1)
+    // https://ethereum.stackexchange.com/questions/148137/contract-deploytransaction-wait1-not-working-in-ethers-version-6
+    const deploymentReceipt = await contract.deploymentTransaction().wait(2);    //await only in async function
+
+    // console.log(`Contract deployed to ${contract.address}`)
+    // https://forum.openzeppelin.com/t/address-of-contract-is-undefined-when-i-try-to-console-log-it-total-beginner-here/39371/2
+    console.log(`Contract deployed to ${await contract.getAddress()}`)
+    console.log("Here is the transaction:")
     // console.log(contract.deployTransaction)
-    // console.log("Here is the receipt:")
-    // console.log(deploymentReceipt)
+    console.log(await contract.deploymentTransaction())
+    console.log("Here is the receipt:")
+    console.log(deploymentReceipt)
     // const nonce = await wallet.getTransactionCount()
     // tx = {
     //   nonce: nonce,
@@ -55,7 +63,7 @@ async function main() {
     // We won't go into this, because it's a lot of math.
 
     // console.log("Let's deploy another! Please wait...")
-    // let resp = await wallet.signTransaction(tx)
+    // let resp = await wallet.signTransaction(tx) //done bo sendTransaction
     // const sentTxResponse = await wallet.sendTransaction(tx);
     // console.log(resp)
 

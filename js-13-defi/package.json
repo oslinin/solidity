@@ -23,8 +23,6 @@
         "lint": "solhint 'contracts/*.sol'",
         "lint:fix": "solhint 'contracts/**/*.sol' --fix",
         "format": "prettier --write .",
-        "deploy0": "yarn hardhat run scripts/aaveBorrow.js",
-        "deploy1": "yarn hardhat run scripts/aaveBorrow.js --network localhost"
-        // "deploy2": "yarn hardhat run scripts/aaveBorrow.js --network sepolia"
+        "run": "hardhat run scripts/aaveBorrow.js"
     }
 }

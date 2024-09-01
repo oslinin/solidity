@@ -7,7 +7,7 @@ async function getWeth() {
     const { deployer } = await getNamedAccounts()
     const iWeth = await ethers.getContractAt(
         "IWeth",
-        networkConfig[network.config.chainId].wethToken, //abi
+        networkConfig[network.config.chainId].wethToken,
         deployer
     )
     const txResponse = await iWeth.deposit({
@@ -15,9 +15,6 @@ async function getWeth() {
     })
     await txResponse.wait(1)
     const wethBalance = await iWeth.balanceOf(deployer)
-    wethBalance1 = wethBalance / 1e9
-    console.log(`Got ${wethBalance1.toString()} WETH`)
-
     console.log(`Got ${wethBalance.toString()} WETH`)
 }
 

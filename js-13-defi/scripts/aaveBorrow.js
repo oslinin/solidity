@@ -5,7 +5,6 @@ const { networkConfig } = require("../helper-hardhat-config")
 const BORROW_MODE = 2 // Variable borrow mode. Stable was disabled.
 
 async function main() {
-    let chainid = network.config.chainId
     await getWeth()
     const { deployer } = await getNamedAccounts()
     const lendingPool = await getLendingPool(deployer)
@@ -14,7 +13,7 @@ async function main() {
     console.log("Depositing WETH...")
     await lendingPool.deposit(wethTokenAddress, AMOUNT, deployer, 0)
     console.log("Desposited!")
-    // // Getting your borrowing stats
+    // Getting your borrowing stats
     let { availableBorrowsETH, totalDebtETH } = await getBorrowUserData(lendingPool, deployer)
     const daiPrice = await getDaiPrice()
     const amountDaiToBorrow = availableBorrowsETH.toString() * 0.95 * (1 / daiPrice.toNumber())

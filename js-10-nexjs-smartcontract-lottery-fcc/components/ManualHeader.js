@@ -1,16 +1,28 @@
 // This file is to show what making a connect button looks like behind the scenes!
+//localstorage in background visible in browser
 
-import { useEffect } from "react"
+import { useEffect } from "react" //core hook from react  https://legacy.reactjs.org/docs/hooks-effect.html
 import { useMoralis } from "react-moralis"
 
 // Top navbar
 export default function ManualHeader() {
-    const { enableWeb3, isWeb3Enabled, isWeb3EnableLoading, account, Moralis, deactivateWeb3 } =
-        useMoralis()
+    const {
+        enableWeb3,
+        isWeb3Enabled, //keeps track of wether web3 is enabled
+        isWeb3EnableLoading, //checks for metamask
+        account, // the current account
+        Moralis,
+        deactivateWeb3,
+    } = useMoralis()
 
+    // dependency array: [isWeb3Enabled]
+    // no dependency array, runs on every render
+    // empty array, runs once
+    // dependency array, runs when the stuff in it changes
     useEffect(() => {
+        //if anything changes, change dependency array.  running all the time
         if (
-            !isWeb3Enabled &&
+            !isWeb3Enabled && //keep checking
             typeof window !== "undefined" &&
             window.localStorage.getItem("connected")
         ) {
@@ -39,7 +51,8 @@ export default function ManualHeader() {
                 <li className="flex flex-row">
                     {account ? (
                         <div className="ml-auto py-2 px-4">
-                            Connected to {account.slice(0, 6)}...
+                            Connected to {account.slice(0, 6)}
+                            ...
                             {account.slice(account.length - 4)}
                         </div>
                     ) : (
@@ -50,7 +63,10 @@ export default function ManualHeader() {
                                 if (typeof ret !== "undefined") {
                                     // depends on what button they picked
                                     if (typeof window !== "undefined") {
-                                        window.localStorage.setItem("connected", "injected")
+                                        window.localStorage.setItem(
+                                            "connected",
+                                            "injected"
+                                        )
                                         // window.localStorage.setItem("connected", "walletconnect")
                                     }
                                 }

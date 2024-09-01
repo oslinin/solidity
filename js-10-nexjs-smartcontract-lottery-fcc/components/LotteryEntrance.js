@@ -2,16 +2,17 @@ import { contractAddresses, abi } from "../constants"
 // dont export from moralis when using react
 import { useMoralis, useWeb3Contract } from "react-moralis"
 import { useEffect, useState } from "react"
-import { useNotification } from "web3uikit"
+import { useNotification } from "web3uikit" //dispatch
 import { ethers } from "ethers"
 
 export default function LotteryEntrance() {
     const { Moralis, isWeb3Enabled, chainId: chainIdHex } = useMoralis()
     // These get re-rendered every time due to our connect button!
-    const chainId = parseInt(chainIdHex)
+    const chainId = parseInt(chainIdHex) //hex to decimal
     // console.log(`ChainId is ${chainId}`)
-    const raffleAddress = chainId in contractAddresses ? contractAddresses[chainId][0] : null
-
+    const raffleAddress =
+        chainId in contractAddresses ? contractAddresses[chainId][0] : null
+    console.log("raffle contract address = ${raffleAddress}")
     // State hooks
     // https://stackoverflow.com/questions/58252454/react-hooks-using-usestate-vs-just-variables
     const [entranceFee, setEntranceFee] = useState("0")
@@ -132,8 +133,13 @@ export default function LotteryEntrance() {
                             "Enter Raffle"
                         )}
                     </button>
-                    <div>Entrance Fee: {ethers.utils.formatUnits(entranceFee, "ether")} ETH</div>
-                    <div>The current number of players is: {numberOfPlayers}</div>
+                    <div>
+                        Entrance Fee:{" "}
+                        {ethers.utils.formatUnits(entranceFee, "ether")} ETH
+                    </div>
+                    <div>
+                        The current number of players is: {numberOfPlayers}
+                    </div>
                     <div>The most previous winner was: {recentWinner}</div>
                 </>
             ) : (

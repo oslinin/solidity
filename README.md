@@ -1,5 +1,18 @@
 - [Vscode/markdown](#vscodemarkdown)
+  - [git](#git)
 - [JS](#js)
+  - [js-05-ethers-simple-storage](#js-05-ethers-simple-storage)
+    - [yarn](#yarn)
+    - [Ethers](#ethers)
+    - [JS](#js-1)
+  - [js-06-hardhat-simple-storage](#js-06-hardhat-simple-storage)
+    - [verify](#verify)
+  - [js-07-hardhat-fund-me (with price converter)](#js-07-hardhat-fund-me-with-price-converter)
+  - [js-10-nextjs-smartcontract-lottery-fcc](#js-10-nextjs-smartcontract-lottery-fcc)
+  - [js-11-hardhat-start-kit](#js-11-hardhat-start-kit)
+  - [js-12-erc20](#js-12-erc20)
+  - [js-13-defi](#js-13-defi)
+  - [js-14-hardhat-nft-fcc](#js-14-hardhat-nft-fcc)
 - [Foundry](#foundry)
   - [Foundry-07-fundme](#foundry-07-fundme)
     - [Tools (forge/anvil/chisel)](#tools-forgeanvilchisel)
@@ -14,7 +27,6 @@
     - [cheats](#cheats)
     - [tests](#tests)
     - [etc](#etc)
-    - [git](#git)
   - [Foundry-08-html-fund-me](#foundry-08-html-fund-me)
   - [Foundry-09-raffle](#foundry-09-raffle)
     - [VRF](#vrf)
@@ -34,13 +46,218 @@ Alternatively, you can use Ctrl+K V to open the preview in a new tab.
 
 TOC: extension Markdown All In One; ctrl+shift+P; type create TOC
 
-Ctrl+P: file viewer; Ctrl+Shift+P: command palette
-
+Ctrl+P: file viewer; Ctrl+Shift+P: com
 code <file> //edit file
+
+### git
+
+git init -b main
+
+git status
+
+git add .
+
+git log
+
+git commit -m "dfkj"
+
+//github
+
+//make repository
+
+git config user.name ""
+
+git remote add origin <url>
+
+git remote -v
+
+git push -u origin main
+
+git clone
 
 # JS
 
+https://github.com/smartcontractkit/full-blockchain-solidity-course-js
+
 VRFv2SubscriptionManager is VRFConsumerBaseV2
+
+prettier yarn package
+
+yarn add --dev prettier
+
+## js-05-ethers-simple-storage
+
+Usually languages are synchronous
+javascript is asynchronous
+const means can't be changed
+await waits for promise to be resolved
+
+```javascript
+const sendValue = ethers.utils.parseEther("1");
+```
+
+### yarn
+
+get yarn
+corepack --version
+corepack enable
+yarn --version
+or \*outdated)
+npm i -g yarn
+
+compiler solc-js
+yarn solcjs --help
+yarn solcjs --version
+yarn add solc
+package.json
+yarn.lock
+node_modules/
+
+//yarn solcjs --bin --abi --include-path node_modules --base-path . -o SimpleStorage.sol
+//in scripts of package.json
+
+npm = yarn
+npx = yarn
+
+### Ethers
+
+https://docs.ethers.org/v6/
+javascript tooling kit to interact with blockchain. Also Web3js
+yarn install ethers
+
+### JS
+
+e.message.toLowerCase().includes("already verified")
+
+## js-06-hardhat-simple-storage
+
+http://hardhat.org/tutorial
+
+dev dependencies only to develop
+yarn add --dev hardhat
+
+yarn hardhat acccounts
+yarn hardhat compile
+cache\
+ artifacts\
+yarn hardhat node
+yarn hardhat
+yarn hardhat test
+yarn hardhat test --grep "amount funded"
+
+### verify
+
+yarn add --dev @nomiclabs/hardhat-etherscan
+then to hardhat.config.js add
+// require("@nomiclabs/hardhat-etherscan")
+require("@nomicfoundation/hardhat-verify")
+
+const { run } = require("hardhat")
+
+```javascript
+// async function verify(contractAddress, args) {
+const verify = async (contractAddress, args) => {
+  console.log("Verifying contract...");
+  try {
+    await run("verify:verify", {
+      address: contractAddress,
+      constructorArguments: args,
+    });
+  } catch (e) {
+    if (e.message.toLowerCase().includes("already verified")) {
+      console.log("Already Verified!");
+    } else {
+      console.log(e);
+    }
+  }
+};
+```
+
+if (network.config.chainId === 11155111 && process.env.ETHERSCAN_API_KEY)
+await verify(simpleStorage.target, [])
+
+## js-07-hardhat-fund-me (with price converter)
+
+git clone https://github.com/PatrickAlphaC/hardhat-fund-me-fcc
+
+fcc-7-hardhat-fund-me
+
+yarn solhint contracts/\*.sol
+
+yarn add @chainlink/contracts
+
+helper-hardhat-config.js //network dependency
+
+yarn hardhat coverage
+
+await deployments.fixture(["all"]) //hardhat-deploy
+fundme = await ethers.getContract("Fundme") //recently deployed
+
+## js-10-nextjs-smartcontract-lottery-fcc
+
+postcss language support vscode extension
+Tailwind CSS IntelliSense
+
+React/NextJS
+
+git clone add https://github.com/PatrickAlphaC/nextjs-smartcontract-lottery-fcc.git nextjs-smartcontract-lottery-fcc
+
+copy yarn.lock, package.json as Patrick
+
+http://netxjs.org/
+
+Components: export default function
+
+styles
+
+yarn dev opens http://localhost:3000/
+
+yarn add moralis react-moralis
+
+hooks for re-render based on state. Enableweb3 = usemoralis()
+
+```javascript
+const { enableWeb3 } = useMoralis();
+```
+
+yarn add web3uikit is easier
+
+## js-11-hardhat-start-kit
+
+https://github.com/smartcontractkit/hardhat-starter-kit/
+
+## js-12-erc20
+
+## js-13-defi
+
+git clone https://github.com/PatrickAlphaC/hardhat-defi-fcc js-13-defi
+
+mainnet forking
+
+```javascript
+const MAINNET_RPC_URL = process.env.MAINNET_RPC_URL || process.env.ALCHEMY_MAINNET_RPC_URL || ""
+module.exports = {
+    defaultNetwork: "hardhat",
+    networks: {
+        hardhat: {
+            chainId: 31337,
+            forking: {
+                url: MAINNET_RPC_URL,
+            },
+        },
+```
+
+health factor <1 liquidate. bots are incentivized to liquidate you.
+
+## js-14-hardhat-nft-fcc
+
+openzeppelin erc-721
+
+NFT has tokeID & tokenURI (url with vsual)
+name
+description
+image
+attributes
 
 # Foundry
 
@@ -245,23 +462,6 @@ readme
 quick start
 use templtes
 
-### git
-
-git init -b main
-git status
-git add .
-git log
-git commit -m "dfkj"
-
-//github
-//make repository
-git config user.name ""
-git remote add origin <url>
-git remote -v
-git push -u origin main
-
-git clone
-
 ## Foundry-08-html-fund-me
 
 git clone https://github.com/Cyfrin/html-fund-me-cu foundry-08-fundme-html
@@ -323,14 +523,10 @@ forge script script/Interactions.s.sol:FundSubscription --rpc-url $SEPOLIA_RPC_U
 forge install foundary/devlops
 DevOpstTools.get_most_recent_deployment
 
-
-https://vrf.chain.link/sepolia/  VRF 
+https://vrf.chain.link/sepolia/12063 VRF Coordinator V2
 
 https://sepolia.etherscan.io/address/0x8103b0a8a00be2ddc778e6e7eaa21791cd364625 VRF
-https://vrf.chain.link/sepolia/12063
 
 https://sepolia.etherscan.io/address/0x35c6BAc0B834756670C5bcAAF36a1f2958c87efB Raffle
 
 https://automation.chain.link/sepolia/46503602413155825590236000896645636080533299372637975538543387700694086199540 keeper
-
-
