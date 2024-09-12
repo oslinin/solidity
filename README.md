@@ -13,6 +13,8 @@
   - [js-12-erc20](#js-12-erc20)
   - [js-13-defi](#js-13-defi)
   - [js-14-hardhat-nft-fcc](#js-14-hardhat-nft-fcc)
+  - [js-15-nft-marketplace](#js-15-nft-marketplace)
+    - [backend](#backend)
 - [Foundry](#foundry)
   - [Foundry-07-fundme](#foundry-07-fundme)
     - [Tools (forge/anvil/chisel)](#tools-forgeanvilchisel)
@@ -35,6 +37,8 @@
     - [subscription](#subscription)
 
 # Vscode/markdown
+
+https://www.markdownguide.org/basic-syntax/
 
 Terminal Ctrl+`
 send line to terminal ctrl+' thanks to https://marketplace.visualstudio.com/items?itemName=nvbn.sendtorepl
@@ -102,8 +106,8 @@ get yarn
 corepack --version
 corepack enable
 yarn --version
-or \*outdated)
-npm i -g yarn
+
+npm i -g yarn (outdated)
 
 compiler solc-js
 yarn solcjs --help
@@ -254,10 +258,44 @@ health factor <1 liquidate. bots are incentivized to liquidate you.
 openzeppelin erc-721
 
 NFT has tokeID & tokenURI (url with vsual)
-name
-description
-image
-attributes
+
+1. name
+1. description
+1. image
+1. attributes
+
+contracts/sublesson/encoding
+
+call was used to send money, but without data in (), only {value: address(this).balance}("")
+staticcall: view/pure. don't change blockchain
+
+- contract deployment
+- function call
+- The "function selector" is the first 4 bytes of the function signature.
+- The "function signature" is a string that defines the function name & parameters.
+
+read deconstructing solidiny from openzeppelin
+
+## js-15-nft-marketplace
+
+git clone https://github.com/PatrickAlphaC/hardhat-nft-marketplace-fcc.git js-15-hardhat-nft-marketplace-a-backend
+git clone https://github.com/PatrickAlphaC/nextjs-nft-marketplace-moralis-fcc.git js-15-hardhat-nft-marketplace-b-moralis
+git clone https://github.com/PatrickAlphaC/graph-nft-marketplace-fcc.git js-15-hardhat-nft-marketplace-c-thegraph
+
+### backend
+
+```cmd
+yarn init
+yarn add --dev hardhat
+yarn add --dev @nomiclabs/hardhat-ethers@npm:hardhat-deploy-ethers ethers @nomiclabs/hardhat-etherscan @nomiclabs/hardhat-waffle chai ethereum-waffle hardhat hardhat-contract-sizer hardhat-deploy hardhat-gas-reporter prettier prettier-plugin-solidity solhint solidity-coverage dotenv
+
+yarn add --dev prettier prettier-plugin-solidity
+
+yarn create next-app
+
+```
+
+add .prettierignore, .prettierrc, .solhint.json, .solhintignore, hardhat.config.js, .env, utils/
 
 # Foundry
 

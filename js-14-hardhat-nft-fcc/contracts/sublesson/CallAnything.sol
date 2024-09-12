@@ -32,6 +32,7 @@ contract CallAnything {
         selector = bytes4(keccak256(bytes("transfer(address,uint256)")));
     }
 
+    //goes in data field
     function getDataToCallTransfer(address someAddress, uint256 amount)
         public
         pure
@@ -53,6 +54,7 @@ contract CallAnything {
     }
 
     // Using encodeWithSignature
+    //does for you function getSelectorOne() bytes4(keccak256(bytes("transfer(address,uint256)")));
     function callTransferFunctionDirectlyTwo(address someAddress, uint256 amount)
         public
         returns (bytes4, bool)

@@ -5,7 +5,7 @@ pragma solidity ^0.8.7;
 
 contract Encoding {
     function combineStrings() public pure returns (string memory) {
-        return string(abi.encodePacked("Hi Mom! ", "Miss you."));
+        return string(abi.encodePacked("Hi Mom! ", "Miss you."));  //string.concat("Hi Mom! ", "Miss you.");
     }
 
     // When we send a transaction, it is "compiled" down to bytecode and sent in a "data" object of the transaction.
@@ -53,6 +53,8 @@ contract Encoding {
     }
 
     // https://forum.openzeppelin.com/t/difference-between-abi-encodepacked-string-and-bytes-string/11837
+    // explains difference from encodeStringByes
+
     // encodePacked
     // This is great if you want to save space, not good for calling functions.
     // You can sort of think of it as a compressor for the massive bytes object above.
@@ -87,6 +89,7 @@ contract Encoding {
         return (someString, someOtherString);
     }
 
+    //cheaper
     function multiEncodePacked() public pure returns (bytes memory) {
         bytes memory someString = abi.encodePacked("some string", "it's bigger!");
         return someString;
