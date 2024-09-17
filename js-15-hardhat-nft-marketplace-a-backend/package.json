@@ -6,7 +6,9 @@
     "lint": "solhint 'contracts/*.sol'",
     "lint:fix": "solhint 'contracts/**/*.sol' --fix",
     "format": "prettier --write .",
-    "coverage": "hardhat coverage"
+    "coverage": "hardhat coverage", 
+    "deploy": "yarn hardhat run scripts/deploy",
+    "deploy1": "yarn hardhat run scripts/deploy --network sepolia"
   },
   "devDependencies": {
     "@chainlink/contracts": "^0.4.0",
