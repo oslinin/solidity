@@ -1,18 +1,18 @@
 {
-  "name": "graph-nft-marketplace",
+  "name": "oleg_subgraph",
   "license": "UNLICENSED",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ graph-nft-marketplace",
-    "create-local": "graph create --node http://localhost:8020/ graph-nft-marketplace",
-    "remove-local": "graph remove --node http://localhost:8020/ graph-nft-marketplace",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 graph-nft-marketplace"
+    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ oleg_subgraph",
+    "create-local": "graph create --node http://localhost:8020/ oleg_subgraph",
+    "remove-local": "graph remove --node http://localhost:8020/ oleg_subgraph",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 oleg_subgraph",
+    "test": "graph test"
   },
   "dependencies": {
-    "@apollo/client": "^3.5.10",
-    "@graphprotocol/graph-cli": "0.28.0",
-    "@graphprotocol/graph-ts": "0.26.0",
-    "ethers": "^5.6.1"
-  }
+    "@graphprotocol/graph-cli": "0.82.0",
+    "@graphprotocol/graph-ts": "0.32.0"
+  },
+  "devDependencies": { "matchstick-as": "0.5.0" }
 }
