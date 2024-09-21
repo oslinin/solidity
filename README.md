@@ -9,7 +9,7 @@
     - [verify](#verify)
   - [js-07-hardhat-fund-me (with price converter)](#js-07-hardhat-fund-me-with-price-converter)
   - [js-10-nextjs-smartcontract-lottery-fcc](#js-10-nextjs-smartcontract-lottery-fcc)
-  - [js-11-hardhat-start-kit](#js-11-hardhat-start-kit)
+  - [js-11-hardhat-start-kit](#js-11-hVardhat-start-kit)
   - [js-12-erc20](#js-12-erc20)
   - [js-13-defi](#js-13-defi)
   - [js-14-hardhat-nft-fcc](#js-14-hardhat-nft-fcc)
@@ -77,6 +77,8 @@ git remote -v
 
 git push -u origin main
 
+git pull origin main
+
 git clone
 
 # JS
@@ -87,7 +89,7 @@ VRFv2SubscriptionManager is VRFConsumerBaseV2
 
 prettier yarn package
 
-yarn add --dev prettier
+yarn add --dev prettier prettier-plugin-solidity
 
 ## js-05-ethers-simple-storage
 
@@ -127,7 +129,9 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 source ~/.nvm/nvm.sh
 nvm install 16
 nvm use 16
+nvm alias default 18
 nvm uninstall 14
+node -v
 
 ### Ethers
 
@@ -284,9 +288,12 @@ read deconstructing solidiny from openzeppelin
 
 ## js-15-nft-marketplace
 
+https://github.com/smartcontractkit/full-blockchain-solidity-course-js?tab=readme-ov-file#lesson-15-nextjs-nft-marketplace-if-you-finish-this-lesson-you-are-a-full-stack-monster
+
 git clone https://github.com/PatrickAlphaC/hardhat-nft-marketplace-fcc.git js-15-hardhat-nft-marketplace-a-backend
 git clone https://github.com/PatrickAlphaC/nextjs-nft-marketplace-moralis-fcc.git js-15-hardhat-nft-marketplace-b-moralis
 git clone https://github.com/PatrickAlphaC/graph-nft-marketplace-fcc.git js-15-hardhat-nft-marketplace-c-thegraph
+git clone https://github.com/PatrickAlphaC/nextjs-nft-marketplace-thegraph-fcc.git js-15-hardhat-nft-marketplace-d-thegraph-frontend
 
 ### backend
 
@@ -294,14 +301,27 @@ git clone https://github.com/PatrickAlphaC/graph-nft-marketplace-fcc.git js-15-h
 yarn init
 yarn add --dev hardhat
 yarn add --dev @nomiclabs/hardhat-ethers@npm:hardhat-deploy-ethers ethers @nomiclabs/hardhat-etherscan @nomiclabs/hardhat-waffle chai ethereum-waffle hardhat hardhat-contract-sizer hardhat-deploy hardhat-gas-reporter prettier prettier-plugin-solidity solhint solidity-coverage dotenv
-
-yarn add --dev prettier prettier-plugin-solidity
-
 yarn create next-app
+
+nvm use 18
+yarn
+deploy to sepolia
+  nftmarketplacce
+customchains
+
+mint_and_list
 
 ```
 
 add .prettierignore, .prettierrc, .solhint.json, .solhintignore, hardhat.config.js, .env, utils/
+
+https://github.com/smartcontractkit/hardhat-starter-kit/issues/140 custom chains error
+
+NftMarketplace 0x35037C1ff4f5e1CCc2B5d5acbC245b4f3C8a66a3
+
+### thegraph
+
+https://thegraph.com/
 
 # Foundry
 

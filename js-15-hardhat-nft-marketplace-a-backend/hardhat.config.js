@@ -70,7 +70,8 @@ module.exports = {
         apiKey: {
             sepolia: ETHERSCAN_API_KEY,
             polygon: POLYGONSCAN_API_KEY,
-        },
+        },        
+        customChains: [],
     },
     gasReporter: {
         enabled: REPORT_GAS,

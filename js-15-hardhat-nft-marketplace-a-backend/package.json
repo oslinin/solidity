@@ -8,7 +8,8 @@
     "format": "prettier --write .",
     "coverage": "hardhat coverage", 
     "deploy": "yarn hardhat run scripts/deploy",
-    "deploy1": "yarn hardhat run scripts/deploy --network sepolia"
+    "deploy1": "yarn hardhat deploy --network sepolia",
+    "mint_and_list": "yarn hardhat run scripts/mint-and-list-item.js --network sepolia"
   },
   "devDependencies": {
     "@chainlink/contracts": "^0.4.0",
