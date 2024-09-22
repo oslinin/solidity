@@ -291,8 +291,12 @@ read deconstructing solidiny from openzeppelin
 https://github.com/smartcontractkit/full-blockchain-solidity-course-js?tab=readme-ov-file#lesson-15-nextjs-nft-marketplace-if-you-finish-this-lesson-you-are-a-full-stack-monster
 
 git clone https://github.com/PatrickAlphaC/hardhat-nft-marketplace-fcc.git js-15-hardhat-nft-marketplace-a-backend
+
 git clone https://github.com/PatrickAlphaC/nextjs-nft-marketplace-moralis-fcc.git js-15-hardhat-nft-marketplace-b-moralis
-git clone https://github.com/PatrickAlphaC/graph-nft-marketplace-fcc.git js-15-hardhat-nft-marketplace-c-thegraph
+
+git clone https://github.com/PatrickAlphaC/graph-nft-marketplace-fcc.git
+js-15-hardhat-nft-marketplace-c-thegraph
+
 git clone https://github.com/PatrickAlphaC/nextjs-nft-marketplace-thegraph-fcc.git js-15-hardhat-nft-marketplace-d-thegraph-frontend
 
 ### backend
@@ -317,11 +321,37 @@ add .prettierignore, .prettierrc, .solhint.json, .solhintignore, hardhat.config.
 
 https://github.com/smartcontractkit/hardhat-starter-kit/issues/140 custom chains error
 
-NftMarketplace 0x35037C1ff4f5e1CCc2B5d5acbC245b4f3C8a66a3
+NftMarketplace
+0x35037C1ff4f5e1CCc2B5d5acbC245b4f3C8a66a3
+0x050CF31c51f7a7129168dBb73Ef9a18fD2b5F7d3
 
 ### thegraph
 
+https://marketplace.visualstudio.com/items?itemName=sswatson.terminal-send
+
 https://thegraph.com/
+orsenkucher.vscode-graphql
+
+```bashrc
+yarn global add @graphprotocol/graph-cli
+export PATH="$PATH:$(yarn global bin)"
+source ~/.bashrc  # or source ~/.zshrc
+graph --version
+
+graph init --studio nft-marketplace --from-contract=0x35037C1ff4f5e1CCc2B5d5acbC245b4f3C8a66a3 --network sepolia
+#first block: 6693674
+cd nft-marketplace
+graph codegen
+graph build
+graph deploy --studio nft-marketplace
+```
+
+schema.graphql defines entities in contract (tables) +
+activeitem
+
+graph codegen puts from schema to generated/ so run codegen after updating schema.graphql
+
+src/mapping.ts how to store events. imports from generated/
 
 # Foundry
 
