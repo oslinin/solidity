@@ -18,6 +18,7 @@
   - [js-15-nft-marketplace](#js-15-nft-marketplace)
     - [backend](#backend)
     - [thegraph](#thegraph)
+    - [theraph ui](#theraph-ui)
 - [Foundry](#foundry)
   - [Foundry-07-fundme](#foundry-07-fundme)
     - [Tools (forge/anvil/chisel)](#tools-forgeanvilchisel)
@@ -347,6 +348,15 @@ cd nft-marketplace
 graph codegen
 graph build
 graph deploy --studio nft-marketplace
+
+
+Build completed: Qme2LcwS4dw6u7L8qCT54U4sVLVFtc8iqJF1u74QkBTFfE
+
+Deployed to https://thegraph.com/studio/subgraph/nft-marketplace
+
+Subgraph endpoints:
+Queries (HTTP):     https://api.studio.thegraph.com/query/89066/nft-marketplace/v0.0.4
+
 ```
 
 schema.graphql defines entities in contract (tables) +
@@ -355,6 +365,13 @@ activeitem
 graph codegen puts from schema to generated/ so run codegen after updating schema.graphql
 
 src/mapping.ts how to store events. imports from generated/
+
+### theraph ui
+
+```bashrc
+npx browserslist@latest --update-db
+yarn dev
+```
 
 # Foundry
 
