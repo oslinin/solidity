@@ -1,8 +1,17 @@
-const { off_chain_check } = require('./off_chain_check');
-const { on_chain_check } = require('./on_chain_check');
-const { check_all_structured_paths } = require('./intial_check');
-const { MIN_PROFIT_TO_CONSIDER_FOR_ON_CHAIN_CALL } = require('../constants');
+const { off_chain_check } = require("./off_chain_check");
+const { on_chain_check } = require("./on_chain_check");
+const { check_all_structured_paths } = require("./intial_check");
+const { MIN_PROFIT_TO_CONSIDER_FOR_ON_CHAIN_CALL } = require("../constants");
 
+/**
+ * Performs profitability checks on a set of mapped paths.
+ *
+ * This function first performs an off-chain check to filter out paths that do not meet the minimum profit threshold.
+ * Then, it performs an on-chain check on the remaining paths to further filter them.
+ *
+ * @param {Array} mapped_paths - An array of paths to check for profitability.
+ * @returns {Promise<Array>} - A promise that resolves to an array of profitable paths that are ready to be staged for a smart contract.
+ */
 async function profitablity_checks(mapped_paths) {
   const ordered_profitable_path_with_optimal_input_amount = [];
 

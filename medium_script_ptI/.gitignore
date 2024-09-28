@@ -9,4 +9,7 @@ typechain-types
 cache
 artifacts
 /uniswap_v3_math
-
+/doxy*
+/Doxy*
+/docs*
+docma*

@@ -24,7 +24,7 @@
  * @param {*} pairUUID
  * @param {*} poolAddresses
  * @param {*} poolInfo
- * @returns
+ * @returns {Array} An array containing the pairUUID, poolAddresses, and poolInfo mappings.
  */
 
 function get_multiple_objects_for_mapping(
@@ -51,7 +51,6 @@ function get_multiple_objects_for_mapping(
       ? poolAddresses[key2].add(`${pair.id}`)
       : (poolAddresses[key2] = new Set([`${pair.id}`]));
 
-   
     poolInfo[pair.id] = pair;
   }
 
@@ -64,7 +63,7 @@ function get_multiple_objects_for_mapping(
  * adjency list were each token (named by thier UUID) is considered its own node.
  * @param {*} poolAddress
  * @param {*} pairSymbols
- * @returns
+ * @returns {{ graph: { vertices: Array<{ vertex: string, neighbors: Array<string> }> }, poolAddress: Object }}
  */
 
 function build_adjacency_list(poolAddress, pairSymbols) {
@@ -106,9 +105,8 @@ function build_adjacency_list(poolAddress, pairSymbols) {
  *
  *
  *
- * @param {
- * } graph
- * @returns
+ * @param {Object} graph - The graph object containing vertices and their neighbors.
+ * @returns {Map} - A map representing the spanning tree.
  */
 
 function get_tree(graph) {
@@ -133,10 +131,10 @@ function get_tree(graph) {
 }
 
 /**
- * We get the  cycles in the input graph with DFS on the Tree. 
+ * We get the cycles in the input graph with DFS on the Tree. 
  * 
- * Each removed edge form the graph is apart of a cycle. There exists a simple path in
- *  the input graph connecting one end of the removed edge to the other. 
+ * Each removed edge from the graph is a part of a cycle. There exists a simple path in
+ * the input graph connecting one end of the removed edge to the other. 
  * Since the spanning tree won’t have any cycles, a simple path can be traced 
  * from any token to any other token. If we take the two ends of a removed edge 
  * and trace the simple path between both in the spanning tree, we get a cycle.
@@ -145,14 +143,14 @@ function get_tree(graph) {
  * the end result is an array [0]....n, consisting of the token UUIDs
  * 
  * [
-    '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
-    '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-    '0x514910771af9ca656af840dff83e8264ecf986ca'
-    ]
+  '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
+  '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+  '0x514910771af9ca656af840dff83e8264ecf986ca'
+  ]
  * 
  * @param {*} graph 
  * @param {*} spannigTree 
- * @returns 
+ * @returns {Array} - An array of cycles, each cycle being an array of token UUIDs.
  */
 
 function get_all_cycles(graph, spannigTree) {
@@ -160,7 +158,7 @@ function get_all_cycles(graph, spannigTree) {
   let rejectedEdges = get_rejected(graph, spannigTree);
 
   rejectedEdges.forEach((edge) => {
-    const ends = edge.split('-');
+    const ends = edge.split("-");
     const start = ends[0];
     const end = ends[1];
 
@@ -190,22 +188,22 @@ function get_all_cycles(graph, spannigTree) {
  * @param {*} parents
  * @param {*} current_node
  * @param {*} parent_node
- * @returns
+ * @returns {Array}
  */
 
 function find_cycle(
   start,
   end,
-  spannigTree,
+  spanningTree,
   visited = new Set(),
   parents = new Map(),
   current_node = start,
-  parent_node = ' '
+  parent_node = " "
 ) {
   let cycle = null;
   visited.add(current_node);
   parents.set(current_node, parent_node);
-  const destinations = spannigTree.get(current_node);
+  const destinations = spanningTree.get(current_node);
   for (const destination of destinations) {
     if (destination === end) {
       cycle = get_cycle_path(start, end, current_node, parents);
@@ -240,8 +238,8 @@ function find_cycle(
  * @param {*} start
  * @param {*} end
  * @param {*} current
- * @param {*} parents
- * @returns
+ * @param {Map} parents - A map that holds references to the visited tokens and their respective parents.
+ * @returns {Array} The captured cycle path as an array of tokens.
  */
 
 function get_cycle_path(start, end, current, parents) {
@@ -263,7 +261,7 @@ function get_cycle_path(start, end, current, parents) {
  * that are not present in the tree we build above.
  * @param {*} graph
  * @param {*} tree
- * @returns
+ * @returns {Set}
  */
 
 function get_rejected(graph, tree) {
@@ -273,8 +271,8 @@ function get_rejected(graph, tree) {
     if (tree.has(node.vertex)) {
       node.neighbors.forEach((child) => {
         if (!tree.get(node.vertex).has(child)) {
-          if (!rejectedEdges.has(child + '-' + node.vertex)) {
-            rejectedEdges.add(node.vertex + '-' + child);
+          if (!rejectedEdges.has(child + "-" + node.vertex)) {
+            rejectedEdges.add(node.vertex + "-" + child);
           }
         }
       });
@@ -291,89 +289,89 @@ function get_rejected(graph, tree) {
  * 
  * 
  * 
-   [
-    '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
-    '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-    '0x514910771af9ca656af840dff83e8264ecf986ca'
-    ]
+  [
+   '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
+   '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+   '0x514910771af9ca656af840dff83e8264ecf986ca'
+   ]
 
-    we build a key, path[0]-path[1], path[1]-path[2], path[2]-path[0]
+   we build a key, path[0]-path[1], path[1]-path[2], path[2]-path[0]
 
-    we use the key to get the pool holding the tokens and any other pool with the same tokens
-    now that we have the pool UUID we use the UUID to get that pools infomation and build
-    the object we want to return. 
+   we use the key to get the pool holding the tokens and any other pool with the same tokens
+   now that we have the pool UUID we use the UUID to get that pools infomation and build
+   the object we want to return. 
 
-    this consists of important information which we will need later for
+   this consists of important information which we will need later for
 
-    1. finding if the swap is profitable
-    2. to use the decimals to get the right prices from ethers
-    3. use the  pools UUID to listen for any new transactions
+   1. finding if the swap is profitable
+   2. to use the decimals to get the right prices from ethers
+   3. use the  pools UUID to listen for any new transactions
 
 
 
-    the returned array consists of all the paths in nested arrays broken into objects....
+   the returned array consists of all the paths in nested arrays broken into objects....
 
 *
 [
   {
-    from_To: 'USDC to USDT',
-    tokenIn: {
-      symbol: 'USDC',
-      id: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
-      decimals: '6',
-      derivedETH: '0.0007998961909495236324660388144395322',
-      priceUSD: 0.9998389999706914
-    },
-    tokenOut: {
-      symbol: 'USDT',
-      id: '0xdac17f958d2ee523a2206206994597c13d831ec7',
-      decimals: '6',
-      derivedETH: '0.0008006128835772466780126174147253052',
-      priceUSD: 1.0007348377660163
-    },
-    price: '0.9995173086363039302583975466064934',
-    exchange: 'uniswapV2',
-    id: '0x3041cbd36888becc7bbcbc0045e3b1f144466f5f'
+   from_To: 'USDC to USDT',
+   tokenIn: {
+    symbol: 'USDC',
+    id: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+    decimals: '6',
+    derivedETH: '0.0007998961909495236324660388144395322',
+    priceUSD: 0.9998389999706914
+   },
+   tokenOut: {
+    symbol: 'USDT',
+    id: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+    decimals: '6',
+    derivedETH: '0.0008006128835772466780126174147253052',
+    priceUSD: 1.0007348377660163
+   },
+   price: '0.9995173086363039302583975466064934',
+   exchange: 'uniswapV2',
+   id: '0x3041cbd36888becc7bbcbc0045e3b1f144466f5f'
   },
   {
-    from_To: 'USDT to WETH',
-    tokenIn: {
-      symbol: 'USDT',
-      id: '0xdac17f958d2ee523a2206206994597c13d831ec7',
-      decimals: '6',
-      derivedETH: '0.0008006128835772466780126174147253052',
-      priceUSD: 1.0007348377660163
-    },
-    tokenOut: {
-      symbol: 'WETH',
-      id: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-      decimals: '18',
-      derivedETH: '1',
-      priceUSD: 1249.960946537105
-    },
-    price: '1249.043102494010227400699204712864',
-    exchange: 'uniswapV2',
-    id: '0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852'
+   from_To: 'USDT to WETH',
+   tokenIn: {
+    symbol: 'USDT',
+    id: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+    decimals: '6',
+    derivedETH: '0.0008006128835772466780126174147253052',
+    priceUSD: 1.0007348377660163
+   },
+   tokenOut: {
+    symbol: 'WETH',
+    id: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+    decimals: '18',
+    derivedETH: '1',
+    priceUSD: 1249.960946537105
+   },
+   price: '1249.043102494010227400699204712864',
+   exchange: 'uniswapV2',
+   id: '0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852'
   },
   {
-    from_To: 'WETH to USDC',
-    tokenIn: {
-      symbol: 'WETH',
-      id: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-      decimals: '18',
-      derivedETH: '1',
-      priceUSD: 1249.960946537105
-    },
-    tokenOut: {
-      symbol: 'USDC',
-      id: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
-      decimals: '6',
-      derivedETH: '0.0007998961909495236324660388144395322',
-      priceUSD: 0.9998389999706914
-    },
-    price: '0.0007998961909495236324660388144395322',
-    exchange: 'uniswapV2',
-    id: '0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc'
+   from_To: 'WETH to USDC',
+   tokenIn: {
+    symbol: 'WETH',
+    id: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+    decimals: '18',
+    derivedETH: '1',
+    priceUSD: 1249.960946537105
+   },
+   tokenOut: {
+    symbol: 'USDC',
+    id: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+    decimals: '6',
+    derivedETH: '0.0007998961909495236324660388144395322',
+    priceUSD: 0.9998389999706914
+   },
+   price: '0.0007998961909495236324660388144395322',
+   exchange: 'uniswapV2',
+   id: '0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc'
   }
 ]
 
@@ -384,30 +382,30 @@ USDC/WETH pool - > WETH/USDT pool -> USDT/USDC pool
  * some keys have multiple addresses attached, we pull off the various ordered
  * permutations from the collected address list
  [
-     [
-      0x1f9840a85d5af5bf1d1762f925bdaddc4201f984,
-      0x1f9840a85d5af5bf1d1762f925bdaddc4201f984
-     ],
-
-     [
-    '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
-    '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-    '0x514910771af9ca656af840dff83e8264ecf986ca'
-     ],
-
-     [
-    '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
-    '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-    '0x514910771af9ca656af840dff83e8264ecf986ca',
-    0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2
+    [
+    0x1f9840a85d5af5bf1d1762f925bdaddc4201f984,
+    0x1f9840a85d5af5bf1d1762f925bdaddc4201f984
     ],
+
+    [
+   '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
+   '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+   '0x514910771af9ca656af840dff83e8264ecf986ca'
+    ],
+
+    [
+   '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
+   '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+   '0x514910771af9ca656af840dff83e8264ecf986ca',
+   0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2
+   ],
  ],
  * 
  * @param {*} addresses
  * @param {*} loop
  * @param {*} result
  * @param {*} current
- * @returns
+ * @returns {Array}
  */
 
 function get_all_address_permutations(
@@ -446,8 +444,6 @@ function build_base_to_quote_keys(cycle, poolAddress) {
 
   return all_paths_from_cycle;
 }
-
-
 
 function formatted_path_information(path, poolInfo) {
   const { keys, token_ids } = path;
@@ -503,5 +499,3 @@ function produce_simple_exchange_paths(exchangeObject) {
 module.exports = {
   produce_simple_exchange_paths,
 };
-
-

@@ -57,6 +57,8 @@ TOC: extension Markdown All In One; ctrl+shift+P; type create TOC
 Ctrl+P: file viewer; Ctrl+Shift+P: com
 code <file> //edit file
 
+copilate alternative: tabnine
+
 ### git
 
 git init -b main
@@ -66,6 +68,10 @@ git status
 git add .
 
 git log
+
+git status
+
+git reset
 
 git commit -m "dfkj"
 
@@ -136,6 +142,9 @@ nvm use 16
 nvm alias default 18
 nvm uninstall 14
 node -v
+
+yarn global add hardhat-shorthand
+yarn hardhat -> hh
 
 ### Ethers
 

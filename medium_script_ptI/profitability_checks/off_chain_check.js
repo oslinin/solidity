@@ -3,17 +3,17 @@ const {
   MIN_USD_VALUE_FOR_OPTIMAL_INPUT_RANGE,
   MAX_USD_VALUE_FOR_OPTIMAL_INPUT_RANGE,
   STEP_BETWEEN_RANGE,
-} = require('../constants');
+} = require("../constants");
 const {
   verfiy_token_path,
   uniswap_V2_sushiswap_swap_math,
   uniswap_V3_swap_math,
-} = require('./utlis');
+} = require("./utlis");
 
 /**
- * we generate an array of possible input token amoutns using the loan pools valutaion in usd
- * @param {*} borrow_token_usd_price
- * @returns
+ * We generate an array of possible input token amounts using the loan pool's valuation in USD.
+ * @param {number} borrow_token_usd_price - The USD price of the token to be borrowed.
+ * @returns {Array} An array of arrays, each containing the token input amount and its corresponding USD value.
  */
 
 function generate_optimal_token_input_amounts(borrow_token_usd_price) {
@@ -55,7 +55,7 @@ function calculate_new_token_amount(pool, input_amount, calcuations) {
       ? Number(pool.reserve0)
       : Number(pool.reserve1);
 
-  if (pool.exchange === 'uniswapV3') {
+  if (pool.exchange === "uniswapV3") {
     //calculate token amount out with uniswap v3
     input_amount = uniswap_V3_swap_math(pool, input_amount);
   } else {

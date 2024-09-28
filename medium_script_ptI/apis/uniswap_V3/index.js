@@ -1,13 +1,13 @@
-const { uniswapSubgraph_V3_Api } = require('./uniswap_V3_subgraph');
+const { uniswapSubgraph_V3_Api } = require("./uniswap_V3_subgraph");
 const {
   get_uniswap_transactions_by_the_hour_V3,
   get_uniswap_volume_by_the_hour_V3,
   get_uniswap_last_swap_information_V3,
   get_most_profitable_loan_pools_for_path_V3,
-} = require('./uniswap_V3_queries');
-const {
-  calculate_reserve_tokens_for_uniswap_V3,
-} = require('../../uniswap_v3_math');
+} = require("./uniswap_V3_queries");
+// const {
+//   calculate_reserve_tokens_for_uniswap_V3,
+// } = require("../../uniswap_V3_math");
 
 async function build_uniswap_V3_USD_volume_and_transaction_object(hour) {
   try {
@@ -28,7 +28,7 @@ async function build_uniswap_V3_USD_volume_and_transaction_object(hour) {
     if (Object.keys(V3_transactions_HourlyObject).length) {
       for (const pair of V3_transactions_HourlyObject.poolHourDatas) {
         const pairObject = pair.pool;
-        
+
         if (
           Number(pairObject.feeTier) <= 3000 &&
           Number(pairObject.tick) > 0 &&
@@ -38,9 +38,9 @@ async function build_uniswap_V3_USD_volume_and_transaction_object(hour) {
             calculate_reserve_tokens_for_uniswap_V3(pairObject);
           pairObject.reserve0 = reserve0;
           pairObject.reserve1 = reserve1;
-          pairObject.token0['price'] = pairObject.token0Price;
-          pairObject.token1['price'] = pairObject.token1Price;
-          pairObject['exchange'] = 'uniswapV3';
+          pairObject.token0["price"] = pairObject.token0Price;
+          pairObject.token1["price"] = pairObject.token1Price;
+          pairObject["exchange"] = "uniswapV3";
           pairObject.fee = pairObject.feeTier;
           res.push(pairObject);
         }
@@ -50,7 +50,7 @@ async function build_uniswap_V3_USD_volume_and_transaction_object(hour) {
     if (Object.keys(V3_USD_volume_HourlyObject).length) {
       for (const pair of V3_USD_volume_HourlyObject.poolHourDatas) {
         const pairObject = pair.pool;
-        
+
         if (
           Number(pairObject.feeTier) <= 3000 &&
           Number(pairObject.tick) > 0 &&
@@ -60,9 +60,9 @@ async function build_uniswap_V3_USD_volume_and_transaction_object(hour) {
             calculate_reserve_tokens_for_uniswap_V3(pairObject);
           pairObject.reserve0 = reserve0;
           pairObject.reserve1 = reserve1;
-          pairObject.token0['price'] = pairObject.token0Price;
-          pairObject.token1['price'] = pairObject.token1Price;
-          pairObject['exchange'] = 'uniswapV3';
+          pairObject.token0["price"] = pairObject.token0Price;
+          pairObject.token1["price"] = pairObject.token1Price;
+          pairObject["exchange"] = "uniswapV3";
           pairObject.fee = pairObject.feeTier;
           res.push(pairObject);
         }
@@ -76,10 +76,8 @@ async function build_uniswap_V3_USD_volume_and_transaction_object(hour) {
   }
 }
 
-
 async function get_uniswap_v3_last_swap_information(address) {
   try {
-
     const V3_swap_pool_query = get_uniswap_last_swap_information_V3(address);
     const swap = await uniswapSubgraph_V3_Api(V3_swap_pool_query);
 
@@ -89,7 +87,6 @@ async function get_uniswap_v3_last_swap_information(address) {
       last_swap_information.pool.token1Price =
         Math.abs(last_swap_information.amount1) /
         Math.abs(last_swap_information.amount0);
-
 
       last_swap_information.pool.token0Price =
         Math.abs(last_swap_information.amount0) /
@@ -103,9 +100,9 @@ async function get_uniswap_v3_last_swap_information(address) {
         Number(last_swap_information.amountUSD) /
         Math.abs(last_swap_information.amount1);
 
-      last_swap_information.pool.exchange = 'uniswapV3'
+      last_swap_information.pool.exchange = "uniswapV3";
 
-      return last_swap_information.pool
+      return last_swap_information.pool;
     }
   } catch (error) {
     console.error(error);
@@ -136,8 +133,6 @@ async function find_most_profitable_loan_pool_V3(
     console.error(error);
   }
 }
-
-
 
 module.exports = {
   build_uniswap_V3_USD_volume_and_transaction_object,
