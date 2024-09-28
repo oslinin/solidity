@@ -9,6 +9,14 @@ const {
 //   calculate_reserve_tokens_for_uniswap_V3,
 // } = require("../../uniswap_V3_math");
 
+/**
+ * Builds an object containing Uniswap V3 USD volume and transaction data for a given hour.
+ *
+ * @param {number} hour - The hour for which to retrieve the data.
+ * @returns {Promise<Object[]>} - A promise that resolves to an array of objects containing the transaction and volume data.
+ * @throws Will throw an error if the API call fails.
+ */
+
 async function build_uniswap_V3_USD_volume_and_transaction_object(hour) {
   try {
     const V3_Query_transactions = get_uniswap_volume_by_the_hour_V3({
@@ -76,6 +84,13 @@ async function build_uniswap_V3_USD_volume_and_transaction_object(hour) {
   }
 }
 
+/**
+ * Retrieves the last swap information for a given Uniswap V3 pool address.
+ *
+ * @param {string} address - The address of the Uniswap V3 pool.
+ * @returns {Promise<Object>} - A promise that resolves to an object containing the last swap information.
+ * @throws Will throw an error if the API call fails.
+ */
 async function get_uniswap_v3_last_swap_information(address) {
   try {
     const V3_swap_pool_query = get_uniswap_last_swap_information_V3(address);
@@ -109,6 +124,16 @@ async function get_uniswap_v3_last_swap_information(address) {
   }
 }
 
+/**
+ * Finds the most profitable loan pool for a given token and pool addresses.
+ *
+ * @param {string} tokenID - The ID of the token.
+ * @param {string} poolAddress1 - The address of the first pool.
+ * @param {string} poolAddress2 - The address of the second pool.
+ * @param {string} poolAddress3 - The address of the third pool.
+ * @returns {Promise<string>} - A promise that resolves to the ID of the most profitable loan pool.
+ * @throws Will throw an error if the API call fails.
+ */
 async function find_most_profitable_loan_pool_V3(
   tokenID,
   poolAddress1,

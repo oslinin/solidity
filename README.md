@@ -85,6 +85,8 @@ git remote add origin <url>
 
 git remote -v
 
+git push
+
 git push -u origin main
 
 git pull origin main

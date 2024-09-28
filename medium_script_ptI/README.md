@@ -29,6 +29,21 @@ sushiswap = build_sushiswap_USD_volume_and_transaction_object
 madge ./ -i img.png
 depcruise --output-type dot apis | dot -T svg > dependency-graph.svg
 
+create doxyfile: doxygen -g
+
+PROJECT*NAME = "Arbitrage Finder"
+OUTPUT_DIRECTORY = ./docs
+INPUT = ./src ./apis ./profitability_checks
+RECURSIVE = YES
+EXTRACT_ALL = YES
+EXTRACT_PRIVATE = YES
+EXTRACT_STATIC = YES
+EXTRACT_LOCAL_CLASSES = YES
+EXTRACT_LOCAL_METHODS = YES
+FILE_PATTERNS = *.js \_.sol
+EXTENSION_MAPPING = js=JavaScript
+doxygen Doxyfile
+
 # Arbitrage Finder
 
 <br/>
