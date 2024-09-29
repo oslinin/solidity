@@ -107,9 +107,11 @@ https://github.com/smartcontractkit/full-blockchain-solidity-course-js
 
 VRFv2SubscriptionManager is VRFConsumerBaseV2
 
+```
 prettier yarn package
-
 yarn add --dev prettier prettier-plugin-solidity
+yarn cache clean
+```
 
 ## js-05-ethers-simple-storage
 
