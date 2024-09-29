@@ -24,10 +24,16 @@ async function oleg_debug() {
   //   waitConfirmations: network.config.blockConfirmations || 1,
   // });
   // log(`ourToken deployed at ${ourToken.address}`);
-  // await deployments.fixture("all");
+  await deployments.fixture("all");
 
   const token = await ethers.getContract("Token", deployer);
   console.log("Token deployed at", token.address);
+
+  ExchangeFactory = await ethers.getContractFactory("Exchange");
+  exchange = await ExchangeFactory.deploy(token.address);
+
+  await token.approve(exchange.address, toWei(200));
+  await exchange.addLiquidity(toWei(200), { value: toWei(100) });
 }
 
 oleg_debug()

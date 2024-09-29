@@ -7,6 +7,7 @@
   - [js-05-ethers-simple-storage](#js-05-ethers-simple-storage)
     - [yarn](#yarn)
     - [Ethers](#ethers)
+    - [Hardhat](#hardhat)
     - [JS](#js-1)
   - [js-06-hardhat-simple-storage](#js-06-hardhat-simple-storage)
     - [verify](#verify)
@@ -21,6 +22,7 @@
     - [thegraph](#thegraph)
     - [theraph ui](#theraph-ui)
 - [Foundry](#foundry)
+  - [foundry-06-simple-storage](#foundry-06-simple-storage)
   - [Foundry-07-fundme](#foundry-07-fundme)
     - [Tools (forge/anvil/chisel)](#tools-forgeanvilchisel)
       - [forge](#forge)
@@ -155,14 +157,21 @@ nvm alias default 18
 nvm uninstall 14
 node -v
 
-yarn global add hardhat-shorthand
-yarn hardhat -> hh
-
 ### Ethers
 
 https://docs.ethers.org/v6/
 javascript tooling kit to interact with blockchain. Also Web3js
 yarn install ethers
+
+### Hardhat
+
+```
+yarn global add hardhat-shorthand
+yarn hardhat -> hh
+yarn hardhat run scripts/deploy.js –network hardhat
+hh run scripts/deploy.js –network hardhat
+
+```
 
 ### JS
 
@@ -268,8 +277,7 @@ https://github.com/smartcontractkit/hardhat-starter-kit/
 
 ```
 
-git clone https://github.com/smartcontractkit/hardhat-starter-kit/ js-11-b-test
-cd js-11-b-test
+git clone https://github.com/smartcontractkit/hardhat-starter-kit/ js-11-hardhat-starter-kit && cd js-11-hardhat-starter-kit && rm -rf .git && yarn
 yarn
 yarn global hardhat-shorthand
 
@@ -434,7 +442,25 @@ settings json:
 //through settings non-json
 "editor.formatOnSave": true
 
+## foundry-06-simple-storage
+
+```
+
+
+forge create SimpleStorage --private-key <PRIVATE_KEY> --rpc-url <ALCHEMY_URL>
+```
+
 ## Foundry-07-fundme
+
+```
+git clone https://github.com/Cyfrin/foundry-fund-me-cu.git foundry-07-fundme && cd foundry-07-fundme && rm -rf .git
+
+make
+
+
+forge script script/DeployFundMe.s.sol
+forge test
+```
 
 ### Tools (forge/anvil/chisel)
 
@@ -443,6 +469,18 @@ settings json:
 3. chisel: like hardhat console; solidity in terminal
 
 #### forge
+
+```
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+foundryup
+forge --version
+forge init
+make all
+
+git submodule update --init --recursive
+git submodule update --init --recursive --no-fetch
+git submodule update --init --recursive --depth 1
+forge install
 
 forge coverage
 forge coverage --fork-url $SEPOLIA_RPC_URL
@@ -455,6 +493,7 @@ forge test --fork-url $SEPOLIA_RPC_URL
 
 forge install transmissions11/soulmate
 remappings = ['@chainlink/contracts/=lib/chainlink-brownie-contracts/contracts/', '@solmate=lib/solmate/src/']
+```
 
 #### gas
 
