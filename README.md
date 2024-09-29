@@ -40,6 +40,7 @@
     - [Keeper](#keeper)
     - [tests](#tests-1)
     - [subscription](#subscription)
+  - [Foundry-10-erc20](#foundry-10-erc20)
 
 # Vscode/markdown
 
@@ -679,3 +680,9 @@ https://sepolia.etherscan.io/address/0x8103b0a8a00be2ddc778e6e7eaa21791cd364625 
 https://sepolia.etherscan.io/address/0x35c6BAc0B834756670C5bcAAF36a1f2958c87efB Raffle
 
 https://automation.chain.link/sepolia/46503602413155825590236000896645636080533299372637975538543387700694086199540 keeper
+
+## Foundry-10-erc20
+
+```
+git clone https://github.com/Cyfrin/foundry-erc20-cu.git foundry-10-erc20 && cd foundry-10-erc20 && rm -rf .git
+```
