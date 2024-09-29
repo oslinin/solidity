@@ -1,6 +1,7 @@
 2024-09-24
 
 - [Vscode/markdown](#vscodemarkdown)
+  - [shell](#shell)
   - [git](#git)
 - [JS](#js)
   - [js-05-ethers-simple-storage](#js-05-ethers-simple-storage)
@@ -59,6 +60,12 @@ code <file> //edit file
 
 copilate alternative: tabnine
 
+### shell
+
+```
+mkdir xx && cd $_
+```
+
 ### git
 
 git init -b main
@@ -116,7 +123,7 @@ const sendValue = ethers.utils.parseEther("1");
 
 ### yarn
 
-get yarn
+get yarn (npm install -g yarn)
 corepack --version
 corepack enable
 yarn --version
@@ -164,6 +171,7 @@ http://hardhat.org/tutorial
 
 dev dependencies only to develop
 yarn add --dev hardhat
+yarn hardhat
 
 yarn hardhat acccounts
 yarn hardhat compile
@@ -254,6 +262,19 @@ yarn add web3uikit is easier
 ## js-11-hardhat-start-kit
 
 https://github.com/smartcontractkit/hardhat-starter-kit/
+
+```
+
+git clone https://github.com/smartcontractkit/hardhat-starter-kit/ js-11-b-test
+cd js-11-b-test
+yarn
+yarn global hardhat-shorthand
+
+hh run scripts/readPrice.js
+yarn test
+
+
+```
 
 ## js-12-erc20
 
@@ -367,6 +388,7 @@ Deployed to https://thegraph.com/studio/subgraph/nft-marketplace
 
 Subgraph endpoints:
 Queries (HTTP):     https://api.studio.thegraph.com/query/89066/nft-marketplace/v0.0.4
+  also in playground of thegraph.com/studio/subgraph/nft-marketplace
 
 ```
 
@@ -378,6 +400,8 @@ graph codegen puts from schema to generated/ so run codegen after updating schem
 src/mapping.ts how to store events. imports from generated/
 
 ### theraph ui
+
+yarn add @appollo/client graphql //queries to graphql
 
 ```bashrc
 npx browserslist@latest --update-db
@@ -411,9 +435,9 @@ settings json:
 
 ### Tools (forge/anvil/chisel)
 
-forge: like hardhat
-anvil: like hardhat node, or ganache
-chisel: like hardhat console; solidity in terminal
+1. forge: like hardhat
+2. anvil: like hardhat node, or ganache
+3. chisel: like hardhat console; solidity in terminal
 
 #### forge
 

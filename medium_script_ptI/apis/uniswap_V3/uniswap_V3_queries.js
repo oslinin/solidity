@@ -12,7 +12,17 @@ function get_uniswap_transactions_by_the_hour_V3({ setHours: time }) {
   curr.setHours(curr.getHours() - time);
   const hour = Math.floor(curr.getTime() / 1000);
   const queryStr = `{
-    poolHourDatas(first: 1000, orderBy: txCount, orderDirection: desc, where: {periodStartUnix_gte: ${hour}, tick_not: 0, liquidity_gt: 0 }){
+    poolHourDatas
+      (
+        first: 1000, 
+        orderBy: txCount, 
+        orderDirection: desc, 
+        where: {
+          periodStartUnix_gte: ${hour}, 
+          tick_not: 0, 
+          liquidity_gt: 0 
+        }
+      ){
       pool{
         id
         feeTier
@@ -154,11 +164,6 @@ function get_uniswap_last_swap_information_V3(address) {
   };
   return queryObj;
 }
-
-
-
-
-
 
 module.exports = {
   get_uniswap_volume_by_the_hour_V3,
