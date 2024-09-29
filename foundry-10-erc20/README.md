@@ -38,11 +38,11 @@ _[⭐️ (7:08:04) | Lesson 10: Foundry ERC20](https://www.youtube.com/watch?v=s
 git clone https://github.com/PatrickAlphaC/foundry-erc20-cu
 cd foundry-erc20-cu
 
-rm -rf .git
+<!-- rm -rf .git
 git submodule deinit -f -- foundry-09-smartcontract-lottery
 git rm -f foundry-09-smartcontract-lottery
-rm -rf .git/modules/foundry-09-smartcontract-lottery
-
+rm -rf .git/modules/foundry-09-smartcontract-lottery -->
+make remove
 make all
 
 forge install
