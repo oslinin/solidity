@@ -2,7 +2,7 @@
 
 This is a section of the Cyfrin Foundry Solidity Course.
 
-*[⭐️ (7:08:04) | Lesson 10: Foundry ERC20](https://www.youtube.com/watch?v=sas02qSFZ74&t=25684s)*
+_[⭐️ (7:08:04) | Lesson 10: Foundry ERC20](https://www.youtube.com/watch?v=sas02qSFZ74&t=25684s)_
 
 - [Foundry ERC20](#foundry-erc20)
 - [Getting Started](#getting-started)
@@ -23,7 +23,6 @@ This is a section of the Cyfrin Foundry Solidity Course.
 - [Formatting](#formatting)
 - [Thank you!](#thank-you)
 
-
 # Getting Started
 
 ## Requirements
@@ -33,13 +32,20 @@ This is a section of the Cyfrin Foundry Solidity Course.
 - [foundry](https://getfoundry.sh/)
   - You'll know you did it right if you can run `forge --version` and you see a response like `forge 0.2.0 (816e00b 2023-03-16T00:05:26.396218Z)`
 
-
 ## Quickstart
 
 ```
 git clone https://github.com/PatrickAlphaC/foundry-erc20-cu
 cd foundry-erc20-cu
-forge install 
+
+rm -rf .git
+git submodule deinit -f -- foundry-09-smartcontract-lottery
+git rm -f foundry-09-smartcontract-lottery
+rm -rf .git/modules/foundry-09-smartcontract-lottery
+
+make all
+
+forge install
 forge build
 ```
 
@@ -84,20 +90,20 @@ make deploy
 
 ## Testing
 
-We talk about 4 test tiers in the video. 
+We talk about 4 test tiers in the video.
 
 1. Unit
 2. Integration
 3. Forked
 4. Staging
 
-This repo we cover #1 and #3. 
+This repo we cover #1 and #3.
 
 ```
 forge test
 ```
 
-or 
+or
 
 ```
 forge test --fork-url $SEPOLIA_RPC_URL
@@ -108,7 +114,6 @@ forge test --fork-url $SEPOLIA_RPC_URL
 ```
 forge coverage
 ```
-
 
 # Deployment to a testnet or mainnet
 
@@ -132,12 +137,11 @@ Head over to [faucets.chain.link](https://faucets.chain.link/) and get some test
 make deploy ARGS="--network sepolia"
 ```
 
-
 ## Scripts
 
-After deploy to a testnet or local net, you can run the scripts. 
+After deploy to a testnet or local net, you can run the scripts.
 
-Using cast deployed locally example: 
+Using cast deployed locally example:
 
 ```
 cast send <ERC20_CONTRACT_ADDRESS> "transfer()"  --value 0.1ether --private-key <PRIVATE_KEY> --rpc-url $SEPOLIA_RPC_URL
@@ -149,7 +153,6 @@ or, to create a ChainlinkVRF Subscription:
 make createSubscription ARGS="--network sepolia"
 ```
 
-
 ## Estimate gas
 
 You can estimate how much gas things cost by running:
@@ -160,15 +163,13 @@ forge snapshot
 
 And you'll see and output file called `.gas-snapshot`
 
-
 # Formatting
 
-
 To run code formatting:
+
 ```
 forge fmt
 ```
-
 
 # Thank you!
 
