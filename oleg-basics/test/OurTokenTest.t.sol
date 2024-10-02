@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.19;
 
-import {DeployToken} from "../deploy/DeployOurToken.s.sol";
+import {DeployToken} from "../script/DeployOurToken.s.sol";
 import {Token} from "../contracts/Token.sol";
 import {Test, console} from "forge-std/Test.sol";
 import {ZkSyncChainChecker} from "lib/foundry-devops/src/ZkSyncChainChecker.sol";

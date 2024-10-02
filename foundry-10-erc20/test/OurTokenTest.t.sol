@@ -26,7 +26,7 @@ contract OurTokenTest is Test, ZkSyncChainChecker {
         if (!isZkSyncChain()) {
             ourToken = deployer.run();
         } else {
-            ourToken = new OurToken(INITIAL_SUPPLY, "MY", "ourtoken");
+            ourToken = new OurToken(INITIAL_SUPPLY);
             ourToken.transfer(msg.sender, INITIAL_SUPPLY);
         }
 
