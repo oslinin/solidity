@@ -13,7 +13,7 @@ interface MintableToken {
 
 contract OurTokenTest is Test, ZkSyncChainChecker {
     uint256 BOB_STARTING_AMOUNT = 100 ether;
-    uint256 public constant INITIAL_SUPPLY = 1_000_000 ether; // 1 million tokens with 18 decimal places
+    uint256 public constant INITIAL_SUPPLY = 1_000 ether; // 1 million tokens with 18 decimal places
 
     OurToken public ourToken;
     DeployOurToken public deployer;
@@ -26,7 +26,7 @@ contract OurTokenTest is Test, ZkSyncChainChecker {
         if (!isZkSyncChain()) {
             ourToken = deployer.run();
         } else {
-            ourToken = new OurToken(INITIAL_SUPPLY);
+            ourToken = new OurToken(INITIAL_SUPPLY, "MY", "ourtoken");
             ourToken.transfer(msg.sender, INITIAL_SUPPLY);
         }
 

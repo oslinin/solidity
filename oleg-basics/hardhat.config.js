@@ -37,7 +37,7 @@ module.exports = {
     hardhat: {
       // // If you want to do some forking, uncomment this
       // forking: {
-      //   url: MAINNET_RPC_URL
+      blockGasLimit: 12000000,
       // },
       chainId: 31337,
     },

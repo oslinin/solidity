@@ -43,6 +43,9 @@
     - [tests](#tests-1)
     - [subscription](#subscription)
   - [Foundry-10-erc20](#foundry-10-erc20)
+- [oleg basic (rewrite zuniswap)](#oleg-basic-rewrite-zuniswap)
+  - [oleg-basic zuniswap1 hardhat](#oleg-basic-zuniswap1-hardhat)
+  - [oleg-basic-foundry (oleg's zuniswap1 foundry)](#oleg-basic-foundry-olegs-zuniswap1-foundry)
 
 # Vscode/markdown
 
@@ -128,10 +131,42 @@ const sendValue = ethers.utils.parseEther("1");
 
 ### yarn
 
+sudo apt update
+sudo apt install curl git
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+npm = yarn
+npx = yautils.parseEther("1000000").toString(),rn
+
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+source ~/.nvm/nvm.sh
+nvm install 16
+nvm use 16
+nvm alias default 18
+nvm uninstall 14
+node -v
+
+sudo apt remove nodejs
+sudo apt update && sudo apt install nodejs
+
+nvm install 22
+nvm use 22
+nvm alias default 22
+npm install npm --global # Upgrade npm to the latest version
+
+mkdir hardhat-tutorial
+cd hardhat-tutorial
+
 get yarn (npm install -g yarn)
 corepack --version
 corepack enable
 yarn --version
+
+npm install --save-dev hardhat
+yarn add hardhat
+
+yarn hardhat init
 
 npm i -g yarn (outdated)
 
@@ -141,21 +176,14 @@ yarn solcjs --version
 yarn add solc
 package.json
 yarn.lock
+
+npm install --save-dev @nomicfoundation/hardhat-toolbox
+yarn add --dev @nomicfoundation/hardhat-toolbox @nomicfoundation/hardhat-ignition @nomicfoundation/hardhat-ignition-ethers @nomicfoundation/hardhat-network-helpers @nomicfoundation/hardhat-chai-matchers @nomicfoundation/hardhat-ethers @nomicfoundation/hardhat-verify chai@4 ethers hardhat-gas-reporter solidity-coverage @typechain/hardhat typechain @typechain/ethers-v6
+
 node_modules/
 
 //yarn solcjs --bin --abi --include-path node_modules --base-path . -o SimpleStorage.sol
 //in scripts of package.json
-
-npm = yarn
-npx = yarn
-
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-source ~/.nvm/nvm.sh
-nvm install 16
-nvm use 16
-nvm alias default 18
-nvm uninstall 14
-node -v
 
 ### Ethers
 
@@ -726,4 +754,79 @@ https://automation.chain.link/sepolia/465036024131558255902360008966456360805332
 
 ```
 git clone https://github.com/Cyfrin/foundry-erc20-cu.git foundry-10-erc20 && cd foundry-10-erc20 && rm -rf .git
+```
+
+# oleg basic (rewrite zuniswap)
+
+## oleg-basic zuniswap1 hardhat
+
+```js
+toWei(100) = 100e18 = ethers.utils.parseEther(100.toString())
+fromWei(100e18) = 100 = ethers.utils.formatEther(100e18)
+```
+
+## oleg-basic-foundry (oleg's zuniswap1 foundry)
+
+because errors in hardhat are useless
+
+```bash
+# make sure foundry-10-erc20 runs
+# make all pulls in higher level submodules in /node_modules
+# update:; forge update --root $(shell pwd) doesn't help
+# try
+git submodule update --init --recursive
+# works
+mkdir oleg-basic-foundry && cd oleg-basic-foundry
+foundryup
+forge init
+forge build
+forge test
+forge install transmissions11/solmate
+forge remappings #infer dependencies!
+forge remove solmate
+<!-- Forge also supports Hardhat-style projects where dependencies are npm packages (stored in node_modules) and contracts are stored in contracts as opposed to src. To enable Hardhat compatibility mode pass the --hh flag.-->
+#steal contracts, tests
+cp ../oleg-basics/contracts/* src
+cp ../foundry-10-erc20/test/* test
+#deploy script
+cp ../foundry-10-erc20/script/DeployOurToken.s.sol ./script/
+        # vm.startBroadcast();
+        # OurToken ourToken = new OurToken(INITIAL_SUPPLY);
+        # vm.stopBroadcast();
+cp ../foundry-10-erc20/Makefile ./
+make all #test the oleg-basics Token
+# it works.  so token ok. now test exchange
+cp ../zuniswap/zuniswap/test/Exchange.test.js ./test/
+#doesn't work because my Exchange.sol doesn't do everything
+#but looking at zuniswap's exchange test i see the problem
+
+# now try to add forge
+https://book.getfoundry.sh/projects/working-on-an-existing-project
+forge install --no-git --no-commit
+forge build
+
+
+```
+
+You can also set remappings in foundry.toml.
+
+remappings = [
+"@solmate-utils/=lib/solmate/src/utils/",
+]
+
+Now we can import any of the contracts in src/utils of the solmate repository like so:
+
+import {LibString} from "@solmate-utils/LibString.sol";
+
+```bash
+cp ../foundry-10-erc20/foundry.toml ./
+forge install <github project>
+forge install transmissions11/soulmate
+forge soldeer install @openzeppelin-contracts~5.0.2
+
+#looks ok, write a sol test
+cp ../foundry-10-erc20/test/OurTokenTest.t.sol ./test/
+cp ../foundry-10-erc20/script/DeployOurToken.s.sol ./deploy/
+forge test --hh
+forge remppings
 ```
