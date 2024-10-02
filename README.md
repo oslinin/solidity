@@ -3,6 +3,10 @@
 - [Vscode/markdown](#vscodemarkdown)
   - [shell](#shell)
   - [git](#git)
+- [Brownie](#brownie)
+  - [brownie-05-Simple-Storage](#brownie-05-simple-storage)
+  - [brownie-06-fundme](#brownie-06-fundme)
+  - [brownie-09-erc20](#brownie-09-erc20)
 - [JS](#js)
   - [js-05-ethers-simple-storage](#js-05-ethers-simple-storage)
     - [yarn](#yarn)
@@ -105,6 +109,54 @@ git push -u origin main
 git pull origin main
 
 git clone
+
+# Brownie
+
+https://github.com/smartcontractkit/full-blockchain-solidity-course-py
+
+## brownie-05-Simple-Storage
+
+```bash
+git clone https://github.com/PatrickAlphaC/brownie_simple_storage.git brownie-05-Simple-Storage && cd brownie-05-Simple-Storage && rm -rf .git
+
+```
+
+## brownie-06-fundme
+
+```bash
+git clone https://github.com/PatrickAlphaC/brownie_fund_me brownie-06-fundme && cd brownie-06-fundme && rm -rf .git
+mkdir brownie_fundme
+cd
+code .
+brownie init
+#create FundMe.sol #copy from prior
+brownie run scripts/deploy.py --network ganache-local
+brownie run scripts/fund_and_withdraw.py --network ganache-local
+brownie test --network ganache-local #fails
+
+```
+
+## brownie-09-erc20
+
+```bash
+git clone https://github.com/PatrickAlphaC/erc20-brownie.git brownie-09-erc20 && cd brownie-09-erc20 && rm -rf .git
+
+npm install -g ganache-cli
+pip install --user pipx
+pipx ensurepath
+# restart your terminal
+pipx install eth-brownie
+
+sudo apt install python3-venv
+python3 -m venv venv
+source venv/bin/activate
+pip install eth-brownie
+brownie --version
+
+brownie run scripts/1_deploy_token.sol
+brownie run scripts/2_deploy_easy_token.sol
+
+```
 
 # JS
 
@@ -829,4 +881,6 @@ cp ../foundry-10-erc20/test/OurTokenTest.t.sol ./test/
 cp ../foundry-10-erc20/script/DeployOurToken.s.sol ./deploy/
 forge test --hh
 forge remppings
+forge install foundry-rs/forge-std --no-commit
+forge install cyfrin/foundry-devops@0.2.2 --no-commit && forge install foundry-rs/forge-std@v1.8.2 --no-commit
 ```
