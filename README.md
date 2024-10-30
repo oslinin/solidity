@@ -3,6 +3,7 @@
 - [Vscode/markdown](#vscodemarkdown)
   - [shell](#shell)
   - [git](#git)
+  - [send to terminal](#send-to-terminal)
 - [Brownie](#brownie)
   - [brownie-05-Simple-Storage](#brownie-05-simple-storage)
   - [brownie-06-fundme](#brownie-06-fundme)
@@ -51,12 +52,14 @@
   - [oleg-basic zuniswap1 hardhat](#oleg-basic-zuniswap1-hardhat)
   - [zuniswap1 foundry](#zuniswap1-foundry)
     - [zuniswap contract](#zuniswap-contract)
+    - [week 3](#week-3)
   - [Zuniswap2](#zuniswap2)
     - [week 1](#week-1)
     - [Week 2](#week-2)
-    - [Week 3](#week-3)
+    - [Week 3](#week-3-1)
+    - [Week 4](#week-4)
   - [V3](#v3)
-    - [test](#test)
+    - [Providing Liquidity](#providing-liquidity)
 
 # Vscode/markdown
 
@@ -76,6 +79,10 @@ Ctrl+P: file viewer; Ctrl+Shift+P: com
 code <file> //edit file
 
 copilate alternative: tabnine
+
+- ollama
+  - ollama run llama3.2:1b
+  - Cody VScode extension
 
 ### shell
 
@@ -116,6 +123,12 @@ git push -u origin main
 git pull origin main
 
 git clone
+
+### send to terminal
+
+https://stackoverflow.com/questions/38952053/how-can-i-run-text-selected-in-the-active-editor-in-vs-codes-integrated-termina
+Press Ctrl+K, Ctrl+S; Search for workbench.action.terminal.runSelectedText
+ctrl-alt-space
 
 # Brownie
 
@@ -577,9 +590,14 @@ make all
 
 yarn install
 git submodule update --init --recursive
+#init means include older ucommited changes to submodules.  initialize if submodule has been initialized, fetch changes, reinitialize deleted submodules
 git submodule update --init --recursive
-git submodule update --init --recursive --no-fetch
+git submodule update --init --recursive --no-fetch #don't do both
+#--no-fetch: don't get latest updates, but do check for uncommited changes.
+# init means download all changes
+# no fetch means check for changes only to upload
 git submodule update --init --recursive --depth 1
+# check .gitmodules in root of git
 forge install
 
 forge coverage
@@ -999,6 +1017,12 @@ forge install cyfrin/foundry-devops@0.2.2 --no-commit && forge install foundry-r
     tokenToEthSwap(_tokensSold, _minEth) //s/*  AddLiquidity(_tokenAmount)
 ```
 
+### week 3
+
+- Factory
+  - createExchange, getExchange
+  - token to token swaps
+
 ## Zuniswap2
 
 ### week 1
@@ -1038,12 +1062,27 @@ Tests
 - Factory Contract
 - Contract deploy via CREATE2 opcode (gnerate new address deterministically!)
   - bytecode + salt
+- Router Contract (UI)
+- Library Contract
+
+### Week 4
 
 ## V3
 
-### test
+### Providing Liquidity
 
-```python
-print("HI")
+```bash
+mkdir uniswapv3-code && cd uniswapv3-code
+forge init --vscode
+#if not working check git status
+#if untrackec content, do
+git submodule update --init --recursive
+git submodule update --remote
+git submodule update --remote --merge
+git submodule foreach git pull origin main
+git status
+git add .; git status
+# or delete it
+
 
 ```

@@ -7,6 +7,9 @@
 [submodule "foundry-10-erc20/lib/openzeppelin-contracts"]
 	path = foundry-10-erc20/lib/openzeppelin-contracts
 	url = https://github.com/openzeppelin/openzeppelin-contracts
+	branch = master
+	ignore = dirty
+	
 [submodule "foundry-07-fundme/lib/foundry-devops"]
 	path = foundry-07-fundme/lib/foundry-devops
 	url = https://github.com/cyfrin/foundry-devops
