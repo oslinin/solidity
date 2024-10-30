@@ -4,6 +4,7 @@
   - [shell](#shell)
   - [git](#git)
   - [send to terminal](#send-to-terminal)
+  - [VSCode color](#vscode-color)
 - [Brownie](#brownie)
   - [brownie-05-Simple-Storage](#brownie-05-simple-storage)
   - [brownie-06-fundme](#brownie-06-fundme)
@@ -31,6 +32,7 @@
   - [Foundry-07-fundme](#foundry-07-fundme)
     - [Tools (forge/anvil/chisel)](#tools-forgeanvilchisel)
       - [forge](#forge)
+      - [git submodule update](#git-submodule-update)
       - [gas](#gas)
       - [chiesel (solidity in terminal)](#chiesel-solidity-in-terminal)
       - [other](#other)
@@ -59,7 +61,8 @@
     - [Week 3](#week-3-1)
     - [Week 4](#week-4)
   - [V3](#v3)
-    - [Providing Liquidity](#providing-liquidity)
+    - [Calculating Liquidity](#calculating-liquidity)
+    - [Pool contract](#pool-contract)
 
 # Vscode/markdown
 
@@ -129,6 +132,11 @@ git clone
 https://stackoverflow.com/questions/38952053/how-can-i-run-text-selected-in-the-active-editor-in-vs-codes-integrated-termina
 Press Ctrl+K, Ctrl+S; Search for workbench.action.terminal.runSelectedText
 ctrl-alt-space
+
+### VSCode color
+
+Select the File > Preferences (Code > Preferences or Code > Settings on macOS) > Theme > Color Theme menu item, or use the Preferences: Color Theme command (Ctrl+K Ctrl+T) to display the Color Theme picker.\
+https://code.visualstudio.com/docs/getstarted/themes
 
 # Brownie
 
@@ -587,7 +595,11 @@ foundryup
 forge --version
 forge init
 make all
+```
 
+#### git submodule update
+
+```bash
 yarn install
 git submodule update --init --recursive
 #init means include older ucommited changes to submodules.  initialize if submodule has been initialized, fetch changes, reinitialize deleted submodules
@@ -598,6 +610,11 @@ git submodule update --init --recursive --no-fetch #don't do both
 # no fetch means check for changes only to upload
 git submodule update --init --recursive --depth 1
 # check .gitmodules in root of git
+
+forge init --no-commit
+#without attempting to initialize or commit a new Git repository
+
+s
 forge install
 
 forge coverage
@@ -1069,9 +1086,8 @@ Tests
 
 ## V3
 
-### Providing Liquidity
-
 ```bash
+
 mkdir uniswapv3-code && cd uniswapv3-code
 forge init --vscode
 #if not working check git status
@@ -1082,7 +1098,30 @@ git submodule update --remote --merge
 git submodule foreach git pull origin main
 git status
 git add .; git status
-# or delete it
+git branch -r
+git config -f .gitmodules submodule.foundry-10-erc20/lib/openzeppelin-contracts.branch master
+git checkout master #WORKED
+
+forge init --vscode --no-commit  #worked
+#This command will create the necessary Foundry project files without trying to initialize a new Git repository.
+
+```
+
+### Calculating Liquidity
+
+### Pool contract
+
+```bash
+touch src/UniswapV3Pool.sol
+mksie src/lib
+touch src/lib/Tick.sol
+touch src/lib/Position.sol
+cast --from-wei 998976618347425280
+import "../src/test.sol";
+import "./lib/Tick.sol";
+
+touch ./test/UniswapV3Pool.t.sol
+
 
 
 ```
