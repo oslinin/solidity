@@ -7,6 +7,7 @@ import {Token} from "../contracts/Token.sol";
 import {Exchange} from "../contracts/Exchange.sol";
 import {Test, console} from "forge-std/Test.sol";
 import {ZkSyncChainChecker} from "lib/foundry-devops/src/ZkSyncChainChecker.sol";
+import "@openzeppelin/contracts/interfaces/draft-IERC6093.sol";
 
 interface MintableToken {
     function mint(address, uint256) external;
@@ -20,8 +21,8 @@ contract TokenTest is Test, ZkSyncChainChecker {
     Exchange public exchange;
     DeployToken public deployer;
     address public deployerAddress;
-    address bob;
-    address alice;
+    address public bob;
+    address public alice;
 
     function setUp() public {
         deployer = new DeployToken();
@@ -32,6 +33,9 @@ contract TokenTest is Test, ZkSyncChainChecker {
             ourToken = new Token("Token", "TOK", INITIAL_SUPPLY);
             ourToken.transfer(msg.sender, INITIAL_SUPPLY);
         }
+
+        bob = makeAddr("bob");
+        alice = makeAddr("alice");
 
         vm.startBroadcast(); //actually deploy, else static call
         assertGt(ourToken.balanceOf(deployerAddress), 200 ether);
@@ -87,7 +91,6 @@ contract TokenTest is Test, ZkSyncChainChecker {
         vm.startBroadcast(); //without this transfer throws insufficentAllowance.
         ourToken.approve(address(exchange), 200 ether);
         // vm.prank(deployerAddress); //fails
-
         exchange.addLiquidity{value: 100 ether}(200 ether);
         vm.stopBroadcast();
 
@@ -100,25 +103,39 @@ contract TokenTest is Test, ZkSyncChainChecker {
         ourToken.approve(address(exchange), 0);
         exchange.addLiquidity{value: 0}(0);
         vm.stopBroadcast();
-
         assertEq(exchange.balanceOf(deployerAddress), 0);
         assertEq(exchange.getReserve(), 0);
     }
 
+    /**
+     * allow 300
+     * put in 200, 100, 100
+     */
     function testExistingReserves() public {
         vm.startBroadcast(); //without this transfer throws insufficentAllowance.
-
+        // startHoax(deployerAddress, 1_000 ether)
         ourToken.approve(address(exchange), 300 ether);
+        // console.log(ourToken.allowance(deployerAddress, address(exchange)));
+
         exchange.addLiquidity{value: 100 ether}(200 ether);
+        // console.log(ourToken.allowance(deployerAddress, address(exchange)));
         assertEq(exchange.totalSupply(), 100 ether);
         //prserve e
-        exchange.addLiquidity{value: 50 ether}(200 ether);
+        exchange.addLiquidity{value: 50 ether}(100 ether);
         assertEq(address(exchange).balance, 150 ether);
         assertEq(exchange.totalSupply(), 150 ether);
 
-        vm.expectRevert();
-        // Exchange.Exchange__ERC20InsufficientTokenAmount.selector
-        //fails when not enough tokens
+        console.log(ourToken.allowance(deployerAddress, address(exchange)));
+        // vm.expectRevert(); //allowance exceeded
+
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                IERC20Errors.ERC20InsufficientAllowance.selector,
+                address(exchange),
+                0,
+                200 ether
+            )
+        );
         exchange.addLiquidity{value: 100 ether}(200 ether);
 
         vm.stopBroadcast();
@@ -238,5 +255,69 @@ contract TokenTest is Test, ZkSyncChainChecker {
             75 ether,
             "Final total supply should be 75 ether"
         );
+
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                IERC20Errors.ERC20InsufficientBalance.selector,
+                deployerAddress,
+                75 ether,
+                100 ether
+            )
+        );
+        // vm.expectRevert(Exchange.Exchange__ERC20InsufficientBalance.selector);
+        exchange.removeLiquidity(100 ether);
+    }
+
+    function testReturnsCorrectTokenAmt() public {
+        startHoax(deployerAddress, 6_000 ether);
+        uint256 tok0 = INITIAL_SUPPLY * 1000;
+        assertEq(ourToken.balanceOf(deployerAddress), tok0);
+
+        ourToken.approve(address(exchange), 2000 ether);
+        exchange.addLiquidity{value: 1000 ether}(2000 ether);
+
+        uint256 outputReserve = exchange.getReserve();
+        uint256 inputReserve = address(exchange).balance;
+        uint256 tokenSold = 100 ether;
+        uint256 inputWithFee = tokenSold * 99;
+        uint256 numerator = inputWithFee * outputReserve;
+        uint256 denominator = (inputReserve * 100) + inputWithFee;
+        uint256 tokensbalanceOfOut = exchange.getTokenAmount(tokenSold);
+        assertEq(tokensbalanceOfOut, numerator / denominator);
+        // uint256 initialTotalSupply = exchange.totalSupply();
+    }
+
+    function testReturnsCorrectEthAmt() public {
+        startHoax(deployerAddress, 6_000 ether);
+        uint256 tok0 = INITIAL_SUPPLY * 1000;
+        assertEq(ourToken.balanceOf(deployerAddress), tok0);
+
+        ourToken.approve(address(exchange), 2000 ether);
+        exchange.addLiquidity{value: 1000 ether}(2000 ether);
+
+        uint256 inputReserve = exchange.getReserve();
+        uint256 outputReserve = address(exchange).balance;
+        uint256 tokenSold = 100 ether;
+        uint256 inputWithFee = tokenSold * 99;
+        uint256 numerator = inputWithFee * outputReserve;
+        uint256 denominator = (inputReserve * 100) + inputWithFee;
+        uint256 tokensbalanceOfOut = exchange.getEthAmount(tokenSold);
+        assertEq(tokensbalanceOfOut, numerator / denominator);
+    }
+
+    function testEthToTokenTransfer() public {
+        startHoax(deployerAddress, 6_000 ether);
+        uint256 tok0 = INITIAL_SUPPLY * 1000;
+        assertEq(ourToken.balanceOf(deployerAddress), tok0);
+
+        ourToken.approve(address(exchange), 2000 ether);
+        exchange.addLiquidity{value: 1000 ether}(2000 ether);
+
+        deployerAddress = alice;
+        startHoax(deployerAddress, 6_000 ether);
+        uint256 userBalanceBefore = ourToken.balanceOf(deployerAddress);
+        uint256 res = exchange.ethToTokenSwap{value: 1 ether}(1.97 ether);
+        uint256 userBalanceAfter = ourToken.balanceOf(deployerAddress);
+        assertEq(userBalanceAfter - userBalanceBefore, res);
     }
 }

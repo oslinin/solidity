@@ -78,3 +78,35 @@ REPORT_GAS=true npx hardhat test
 npx hardhat node
 npx hardhat ignition deploy ./ignition/modules/Lock.js
 ```
+
+#V3
+
+## First swap
+
+```bash
+$ mkdir uniswapv3clone
+$ cd uniswapv3clone
+$ forge init
+$ npx create-react-app ui
+sqrt(P) = sqrt(Y/X)
+P(i) = 1.0001^i
+L = sqrt(xy)
+
+cast --from-wei AMOUNT
+```
+
+```python
+import math
+
+
+def price_to_tick(p):
+    #P(i) = 1.0001^i
+    return math.floor(math.log(p, 1.0001))
+
+price_to_tick(5000)
+> 85176
+```
+
+```tex
+p_{x}
+```

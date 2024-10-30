@@ -170,6 +170,17 @@ contract Exchange is ERC20 {
         return getAmount(_tokenSold, tokenReserve, address(this).balance);
     }
 
+    /** If you sell _tokenSold eth, how much token would you get
+     *
+     */
+    function getTokenAmount(uint256 _tokenSold) public view returns (uint256) {
+        require(_tokenSold > 0, "tokenSold is too small");
+
+        uint256 tokenReserve = getReserve();
+
+        return getAmount(_tokenSold, address(this).balance, tokenReserve);
+    }
+
     /**
      * sell tokens for eth
      *

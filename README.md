@@ -50,8 +50,13 @@
 - [oleg basic (rewrite zuniswap)](#oleg-basic-rewrite-zuniswap)
   - [oleg-basic zuniswap1 hardhat](#oleg-basic-zuniswap1-hardhat)
   - [zuniswap1 foundry](#zuniswap1-foundry)
-  - [zuniswap contract](#zuniswap-contract)
-  - [Week2](#week2)
+    - [zuniswap contract](#zuniswap-contract)
+  - [Zuniswap2](#zuniswap2)
+    - [week 1](#week-1)
+    - [Week 2](#week-2)
+    - [Week 3](#week-3)
+  - [V3](#v3)
+    - [test](#test)
 
 # Vscode/markdown
 
@@ -60,7 +65,7 @@ https://www.markdownguide.org/basic-syntax/
 Terminal Ctrl+`
 send line to terminal ctrl+' thanks to https://marketplace.visualstudio.com/items?itemName=nvbn.sendtorepl
 
-Render:
+sRender:
 Open your Markdown file in VS Code.
 Use the shortcut Ctrl+Shift+V to open the Markdown preview side-by-side with your editor.
 Alternatively, you can use Ctrl+K V to open the preview in a new tab.
@@ -570,6 +575,8 @@ forge --version
 forge init
 make all
 
+yarn install
+git submodule update --init --recursive
 git submodule update --init --recursive
 git submodule update --init --recursive --no-fetch
 git submodule update --init --recursive --depth 1
@@ -614,6 +621,7 @@ uint256 a = 0xa57b
 cast --to-base 0x01 dec
 cast sig "createSubscription()" //should match metamask ensuring UI isn't malicious
 http://openchain.xyz/signatures
+cast --from-wei 998976618347425280
 
 ### make
 
@@ -757,6 +765,15 @@ await expect(
      nftMarketplace.listItem(basicNft.address, TOKEN_ID, ZERO_PRICE)
  ).revertedWithCustomError(nftMarketplace, "NftMarketplace__PriceMustBeAboveZero")
         })
+```
+
+```javascript
+await exchange
+  .connect(user)
+  .ethToTokenTransfer(toWei(1.97), user.address, { value: toWei(1) });
+
+vm.prank(msg.sender);
+ourToken.transfer(bob, BOB_STARTING_AMOUNT);
 ```
 
 ### etc
@@ -939,7 +956,7 @@ forge install foundry-rs/forge-std --no-commit
 forge install cyfrin/foundry-devops@0.2.2 --no-commit && forge install foundry-rs/forge-std@v1.8.2 --no-commit
 ```
 
-## zuniswap contract
+### zuniswap contract
 
 ```
  Eth/ZU.  generate ZUV
@@ -982,9 +999,51 @@ forge install cyfrin/foundry-devops@0.2.2 --no-commit && forge install foundry-r
     tokenToEthSwap(_tokensSold, _minEth) //s/*  AddLiquidity(_tokenAmount)
 ```
 
-## Week2
+## Zuniswap2
 
-```
-exchange.balance //eth
+### week 1
+
+- Core
+  - UniswapV2ERC20
+  - UniswapV2Factory
+  - UniswapV2Pair
+- Periphery
+  - UniswapV2Router
+  - UniswapV2Library
+- Pooling L
+
+$Liquidity_{minted}=\sqrt{Amount_{0} * Amount_{1}}$\
+$Liquidity_{minted}=TotalSupply_{LP} * Amount_{deposited}/Reserve$\
+e.g. 200 token 100 eth, deposit 100 eth \
+100 \* 100/100 = 100 LP minted
+
+Remove liquidity \
+$Amount_{deposited} = Reserve * Balance_{LP}/TotalSupply_{LP}$
+
+Tests
+
+### Week 2
+
+- Token swapping
+- provides actual e
+- transfer, transferFrom
+- reentrancy attacks
+- price oracle: y/x. TWAP. Store accumulated prices
+- storage optimization
+- overflow
+- safe transfer
+
+### Week 3
+
+- Factory Contract
+- Contract deploy via CREATE2 opcode (gnerate new address deterministically!)
+  - bytecode + salt
+
+## V3
+
+### test
+
+```python
+print("HI")
 
 ```
