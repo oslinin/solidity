@@ -5,6 +5,8 @@
   - [git](#git)
   - [send to terminal](#send-to-terminal)
   - [VSCode color](#vscode-color)
+  - [VScode git](#vscode-git)
+  - [RMarkdown all in one](#rmarkdown-all-in-one)
 - [Brownie](#brownie)
   - [brownie-05-Simple-Storage](#brownie-05-simple-storage)
   - [brownie-06-fundme](#brownie-06-fundme)
@@ -137,6 +139,45 @@ ctrl-alt-space
 
 Select the File > Preferences (Code > Preferences or Code > Settings on macOS) > Theme > Color Theme menu item, or use the Preferences: Color Theme command (Ctrl+K Ctrl+T) to display the Color Theme picker.\
 https://code.visualstudio.com/docs/getstarted/themes
+use high contrast
+
+### VScode git
+
+https://code.visualstudio.com/docs/sourcecontrol/overview
+
+### RMarkdown all in one
+
+https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one
+
+- math
+- Markdown All in One: Create Table of Contents
+- Markdown All in One: Update Table of Contents
+- Markdown All in One: Add/Update section numbers
+- Markdown All in One: Remove section numbers
+- Markdown All in One: Toggle code span
+- Markdown All in One: Toggle code block
+- Markdown All in One: Print current document to HTML
+- Markdown All in One: Print documents to HTML
+- Markdown All in One: Toggle math environment
+- Markdown All in One: Toggle list
+
+Key Command
+
+- Ctrl/Cmd + B Toggle bold
+- Ctrl/Cmd + I Toggle italic
+- Alt+S (on Windows) Toggle strikethrough1
+- Ctrl + Shift + ] Toggle heading (uplevel)
+- Ctrl + Shift + [ Toggle heading (downlevel)
+- Ctrl/Cmd + M Toggle math environment
+- Alt + C Check/Uncheck task list item
+- Ctrl/Cmd + Shift + V Toggle preview
+- Ctrl/Cmd + K V Toggle preview to side
+
+Table Ctrl + Shift + I not working!f
+
+|Left|right|
+|1|2|
+|3|4|
 
 # Brownie
 
@@ -589,12 +630,40 @@ forge test
 
 #### forge
 
-```
+```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 foundryup
 forge --version
 forge init
 make all
+
+--no-commit: install without trying to initialize a new Git repository
+
+forge init --no-commit
+#without attempting to initialize or commit a new Git repository
+
+forge install
+forge install --no-git --no-commit
+forge install Cyfrin/foundry-devops --no-commit
+forge install foundary/devlops
+forge install transmissions11/solmate
+forge remppings
+forge install foundry-rs/forge-std --no-commit
+forge install cyfrin/foundry-devops@0.2.2 --no-commit && forge install foundry-rs/forge-std@v1.8.2 --no-commit
+
+forge coverage
+forge coverage --fork-url $SEPOLIA_RPC_URL
+forge test
+forge test --match-test --v
+forge test --match-test --vv
+forge test --match-test --vvv
+forge test --match-test --vvvv
+forge test --fork-url $SEPOLIA_RPC_URL
+forge test --debug "func()" #bytecode walker
+
+forge install transmissions11/soulmate
+remappings = ['@chainlink/contracts/=lib/chainlink-brownie-contracts/contracts/', '@solmate=lib/solmate/src/']
+
 ```
 
 #### git submodule update
@@ -611,24 +680,6 @@ git submodule update --init --recursive --no-fetch #don't do both
 git submodule update --init --recursive --depth 1
 # check .gitmodules in root of git
 
-forge init --no-commit
-#without attempting to initialize or commit a new Git repository
-
-s
-forge install
-
-forge coverage
-forge coverage --fork-url $SEPOLIA_RPC_URL
-forge test
-forge test --match-test --v
-forge test --match-test --vv
-forge test --match-test --vvv
-forge test --match-test --vvvv
-forge test --fork-url $SEPOLIA_RPC_URL
-forge test --debug "func()" #bytecode walker
-
-forge install transmissions11/soulmate
-remappings = ['@chainlink/contracts/=lib/chainlink-brownie-contracts/contracts/', '@solmate=lib/solmate/src/']
 ```
 
 #### gas
@@ -1113,14 +1164,15 @@ forge init --vscode --no-commit  #worked
 
 ```bash
 touch src/UniswapV3Pool.sol
-mksie src/lib
+mkdir src/lib
 touch src/lib/Tick.sol
 touch src/lib/Position.sol
 cast --from-wei 998976618347425280
 import "../src/test.sol";
 import "./lib/Tick.sol";
-
+forge install foundry-rs/forge-std --no-commit
+forge remappings
+cat foundry.toml
 touch ./test/UniswapV3Pool.t.sol
-test
 
 ```

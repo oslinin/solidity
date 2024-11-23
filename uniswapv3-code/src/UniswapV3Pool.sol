@@ -2,6 +2,7 @@
 
 pragma solidity ^0.8.14;
 
+import "./IERC20.sol";
 import "./lib/Tick.sol";
 import "./lib/Position.sol";
 
@@ -35,6 +36,8 @@ contract UniswapV3Pool {
     // Positions info
     mapping(bytes32 => Position.Info) public positions;
 
+    error InsufficientInputAmount();
+
     constructor(
         address token0_,
         address token1_,
@@ -47,7 +50,12 @@ contract UniswapV3Pool {
         slot0 = Slot0({sqrtPriceX96: sqrtPriceX96, tick: tick});
     }
 
-    function mint() public {
+    function mint(
+        address owner,
+        int24 lowerTick,
+        int24 upperTick,
+        uint128 amount
+    ) external returns (uint256 amount0, uint256 amount1) {
         uint256 balance0Before;
         uint256 balance1Before;
         if (amount0 > 0) balance0Before = balance0();
@@ -72,11 +80,21 @@ contract UniswapV3Pool {
         );
     }
 
-    function balance0() internal returns (uint256 balance) {
+    function balance0() internal view returns (uint256 balance) {
         balance = IERC20(token0).balanceOf(address(this));
     }
 
-    function balance1() internal returns (uint256 balance) {
+    function balance1() internal view returns (uint256 balance) {
         balance = IERC20(token1).balanceOf(address(this));
     }
+
+    event Mint(
+        address sender,
+        address indexed owner,
+        int24 indexed lowerTick,
+        int24 indexed upperTick,
+        uint128 amount,
+        uint256 amount0,
+        uint256 amount1
+    );
 }
