@@ -83,7 +83,7 @@ TOC: extension Markdown All In One; ctrl+shift+P; type create TOC
 Ctrl+P: file viewer; Ctrl+Shift+P: com
 code <file> //edit file
 
-copilate alternative: tabnine
+copilot alternative: tabnine
 
 - ollama
   - ollama run llama3.2:1b
@@ -137,7 +137,8 @@ ctrl-alt-space
 
 ### VSCode color
 
-Select the File > Preferences (Code > Preferences or Code > Settings on macOS) > Theme > Color Theme menu item, or use the Preferences: Color Theme command (Ctrl+K Ctrl+T) to display the Color Theme picker.\
+Select the File > Preferences (Code > Preferences or Code > Settings on macOS) > Theme > Color 
+Theme menu item, or use the Preferences: Color Theme command (Ctrl+K Ctrl+T) to display the Color Theme picker.
 https://code.visualstudio.com/docs/getstarted/themes
 use high contrast
 
@@ -530,7 +531,6 @@ https://github.com/smartcontractkit/hardhat-starter-kit/issues/140 custom chains
 
 NftMarketplace
 0x35037C1ff4f5e1CCc2B5d5acbC245b4f3C8a66a3
-0x050CF31c51f7a7129168dBb73Ef9a18fD2b5F7d3
 
 ### thegraph
 
@@ -1150,7 +1150,7 @@ git submodule foreach git pull origin main
 git status
 git add .; git status
 git branch -r
-git config -f .gitmodules submodule.foundry-10-erc20/lib/openzeppelin-contracts.branch master
+git conf ig -f .gitmodules submodule.foundry-10-erc20/lib/openzeppelin-contracts.branch master
 git checkout master #WORKED
 
 forge init --vscode --no-commit  #worked
@@ -1176,3 +1176,32 @@ cat foundry.toml
 touch ./test/UniswapV3Pool.t.sol
 
 ```
+
+
+# Medium Uniswap
+
+* Index.js
+    * init
+        * defi_array_of_objects = await get_all_defi_liquidty_pools(1);
+        * path_and_loan_pools = [];
+        * possible_profitable_paths = produce_simple_exchange_paths(defi_array_of_objects);
+            * [pairUUID, poolAddresses, poolInfo] = get_multiple_objects_for_mapping(exchangeObject);
+                for (const pair of exchangeObject) //pair = {token1=USD,token2=XRP, id=4343]
+                    pairUUID[XRP] = USD; pairUUID[USD] = XRP
+                    poolAddresses[USD-XRP] = poolAddresses[XRP-USD] = pair.id
+                    poolInfo[4343] = pair;
+            * {graph, poolAddress} = build_adjacency_list(poolAddress, pairSymbols);
+                    const vertArr = [];
+
+            * tree = get_tree(graph);
+            * cycles = get_all_cycles(graph, tree);
+            * for (const cycle of cycles) 
+                * const keys = build_base_to_quote_keys(cycle, poolAddress);
+                * path_keys_and_ids.push({ keys: keys, token_ids: cycle });
+            * for (const path of path_keys_and_ids) 
+                * const path_with_liqudity_pool_info = formatted_path_information(path, poolInfo);
+                * simple_paths.push(...path_with_liqudity_pool_info);
+        * proftiable_opportunities_intial_check = check_all_structured_paths(possible_profitable_paths);
+        * loan_pools = await determine_loan_pools_of_path(token_ids,pool_addresses);
+            * path_and_loan_pools.push({ path: path, loan_pools: loan_pools });
+            
