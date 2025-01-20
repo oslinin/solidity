@@ -1,8 +1,9 @@
 2024-09-24
 
+- [git](#git)
 - [Vscode/markdown](#vscodemarkdown)
   - [shell](#shell)
-  - [git](#git)
+  - [git](#git-1)
   - [send to terminal](#send-to-terminal)
   - [VSCode color](#vscode-color)
   - [VScode git](#vscode-git)
@@ -65,6 +66,14 @@
   - [V3](#v3)
     - [Calculating Liquidity](#calculating-liquidity)
     - [Pool contract](#pool-contract)
+- [Medium Uniswap](#medium-uniswap)
+
+# git
+
+```bash
+git reset  #undo
+echo "venv" > .gitignore
+```
 
 # Vscode/markdown
 
@@ -137,7 +146,7 @@ ctrl-alt-space
 
 ### VSCode color
 
-Select the File > Preferences (Code > Preferences or Code > Settings on macOS) > Theme > Color 
+Select the File > Preferences (Code > Preferences or Code > Settings on macOS) > Theme > Color
 Theme menu item, or use the Preferences: Color Theme command (Ctrl+K Ctrl+T) to display the Color Theme picker.
 https://code.visualstudio.com/docs/getstarted/themes
 use high contrast
@@ -1177,31 +1186,40 @@ touch ./test/UniswapV3Pool.t.sol
 
 ```
 
-
 # Medium Uniswap
 
-* Index.js
-    * init
-        * defi_array_of_objects = await get_all_defi_liquidty_pools(1);
-        * path_and_loan_pools = [];
-        * possible_profitable_paths = produce_simple_exchange_paths(defi_array_of_objects);
-            * [pairUUID, poolAddresses, poolInfo] = get_multiple_objects_for_mapping(exchangeObject);
-                for (const pair of exchangeObject) //pair = {token1=USD,token2=XRP, id=4343]
-                    pairUUID[XRP] = USD; pairUUID[USD] = XRP
-                    poolAddresses[USD-XRP] = poolAddresses[XRP-USD] = pair.id
-                    poolInfo[4343] = pair;
-            * {graph, poolAddress} = build_adjacency_list(poolAddress, pairSymbols);
-                    const vertArr = [];
+- Index.js
 
-            * tree = get_tree(graph);
-            * cycles = get_all_cycles(graph, tree);
-            * for (const cycle of cycles) 
-                * const keys = build_base_to_quote_keys(cycle, poolAddress);
-                * path_keys_and_ids.push({ keys: keys, token_ids: cycle });
-            * for (const path of path_keys_and_ids) 
-                * const path_with_liqudity_pool_info = formatted_path_information(path, poolInfo);
-                * simple_paths.push(...path_with_liqudity_pool_info);
-        * proftiable_opportunities_intial_check = check_all_structured_paths(possible_profitable_paths);
-        * loan_pools = await determine_loan_pools_of_path(token_ids,pool_addresses);
-            * path_and_loan_pools.push({ path: path, loan_pools: loan_pools });
-            
+  - init
+
+    - defi_array_of_objects = await get_all_defi_liquidty_pools(1);
+    - path_and_loan_pools = [];
+    - possible_profitable_paths = produce_simple_exchange_paths(defi_array_of_objects);
+
+      - [pairUUID, poolAddresses, poolInfo] = get_multiple_objects_for_mapping(exchangeObject);
+
+      ```
+        for (const pair of exchangeObject) //pair = {token1=USD,token2=XRP, id=4343]
+        pairUUID[XRP] = USD; pairUUID[USD] = XRP
+        poolAddresses[USD-XRP] = poolAddresses[XRP-USD] = 4343
+        poolInfo[4343] = pair;
+      ```
+
+      - {graph, poolAddress} = build_adjacency_list(poolAddress, pairSymbols);
+
+      ```
+        const vertArr = [];
+      ```
+
+      - tree = get_tree(graph);
+      - cycles = get_all_cycles(graph, tree);
+      - for (const cycle of cycles)
+        - const keys = build_base_to_quote_keys(cycle, poolAddress);
+        - path_keys_and_ids.push({ keys: keys, token_ids: cycle });
+      - for (const path of path_keys_and_ids)
+        - const path_with_liqudity_pool_info = formatted_path_information(path, poolInfo);
+        - simple_paths.push(...path_with_liqudity_pool_info);
+
+    - proftiable_opportunities_intial_check = check_all_structured_paths(possible_profitable_paths);
+    - loan_pools = await determine_loan_pools_of_path(token_ids,pool_addresses);
+      - path_and_loan_pools.push({ path: path, loan_pools: loan_pools });
