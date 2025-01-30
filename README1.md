@@ -1,6 +1,9 @@
 2024-09-24
 
-- [git](#git)
+- [OS](#os)
+  - [git](#git)
+  - [npm node package manager](#npm-node-package-manager)
+    - [nvm](#nvm)
 - [Vscode/markdown](#vscodemarkdown)
   - [shell](#shell)
   - [git](#git-1)
@@ -68,12 +71,29 @@
     - [Pool contract](#pool-contract)
 - [Medium Uniswap](#medium-uniswap)
 
-# git
+# OS
+
+## git
 
 ```bash
 git reset  #undo
 echo "venv" > .gitignore
 ```
+
+## npm node package manager
+
+```bash
+nvm install-latest-npm
+nvm install 22
+nvm use 22
+npm -v
+npm install npm -g
+
+```
+
+### nvm
+
+multiple versions of npm
 
 # Vscode/markdown
 
@@ -1149,7 +1169,14 @@ Tests
 ```bash
 
 mkdir uniswapv3-code && cd uniswapv3-code
-forge init --vscode
+forge init -vscode
+forge init -vscode --force #initialize regardless
+$ mkdir uniswapv3clone
+$ cd uniswapv3clone
+$ forge init --vscode
+npx create-react-app ui
+
+
 #if not working check git status
 #if untrackec content, do
 git submodule update --init --recursive
@@ -1166,6 +1193,13 @@ forge init --vscode --no-commit  #worked
 #This command will create the necessary Foundry project files without trying to initialize a new Git repository.
 
 ```
+
+1. UniswapV3Pool the core pool contract that implements liquidity management and swapping
+2. UniswapV3Factory the registry contract that deploys new pools and keeps a record of all deployed pools.
+3. UniswapV3Manager–a periphery contract that makes it easier to interact with the pool contract. This is a very simplified implementation of SwapRouter
+4. UniswapV3Quoter is a cool contract that allows calculating swap prices on-chain. This is a minimal copy of both Quoter and QuoterV2. Again, only “exact input” swaps are supported.
+5. UniswapV3NFTManager allows turning liquidity positions into NFTs. This is a simplified implementation of NonfungiblePositionManager
+6. Front-end Application
 
 ### Calculating Liquidity
 
