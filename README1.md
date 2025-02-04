@@ -1168,9 +1168,12 @@ Tests
 
 ```bash
 
-mkdir uniswapv3-code && cd uniswapv3-code
-forge init -vscode
-forge init -vscode --force #initialize regardless
+mkdir uniswapv3-code
+cd uniswapv3-code
+forge init --vscode
+#initialize regardless
+forge init --vscode --force
+rm script/* src/Contract.sol test/Contract.t.sol
 $ mkdir uniswapv3clone
 $ cd uniswapv3clone
 $ forge init --vscode
