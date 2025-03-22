@@ -1,11 +1,7 @@
-// SPDX-License-Identifier: UNLICENSED
-
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.14;
-
-import "./lib/forge-std/src/interfaces/IERC20.sol";
-// import "./IERC20.sol";
-import "./lib/Tick.sol";
-import "./lib/Position.sol";
+import "../src/lib/Tick.sol";
+import "../src/lib/Position.sol";
 
 // src/UniswapV3Pool.sol
 contract UniswapV3Pool {
@@ -37,8 +33,6 @@ contract UniswapV3Pool {
     // Positions info
     mapping(bytes32 => Position.Info) public positions;
 
-    error InsufficientInputAmount();
-
     constructor(
         address token0_,
         address token1_,
@@ -51,22 +45,50 @@ contract UniswapV3Pool {
         slot0 = Slot0({sqrtPriceX96: sqrtPriceX96, tick: tick});
     }
 
+
+
     function mint(
         address owner,
         int24 lowerTick,
         int24 upperTick,
-        uint128 amount
+        uint128 amount,
+        bytes calldata data
     ) external returns (uint256 amount0, uint256 amount1) {
+        if (
+            lowerTick >= upperTick ||
+            lowerTick < TickMath.MIN_TICK ||
+            upperTick > TickMath.MAX_TICK
+        ) revert InvalidTickRange();
+
+        if (amount == 0) revert ZeroLiquidity();
+
+        (, int256 amount0Int, int256 amount1Int) = _modifyPosition(
+            ModifyPositionParams({
+                owner: owner,
+                lowerTick: lowerTick,
+                upperTick: upperTick,
+                liquidityDelta: int128(amount)
+            })
+        );
+
+        amount0 = uint256(amount0Int);
+        amount1 = uint256(amount1Int);
+
         uint256 balance0Before;
         uint256 balance1Before;
+
         if (amount0 > 0) balance0Before = balance0();
         if (amount1 > 0) balance1Before = balance1();
+
         IUniswapV3MintCallback(msg.sender).uniswapV3MintCallback(
             amount0,
-            amount1
+            amount1,
+            data
         );
+
         if (amount0 > 0 && balance0Before + amount0 > balance0())
             revert InsufficientInputAmount();
+
         if (amount1 > 0 && balance1Before + amount1 > balance1())
             revert InsufficientInputAmount();
 
@@ -79,23 +101,4 @@ contract UniswapV3Pool {
             amount0,
             amount1
         );
-    }
-
-    function balance0() internal view returns (uint256 balance) {
-        balance = IERC20(token0).balanceOf(address(this));
-    }
-
-    function balance1() internal view returns (uint256 balance) {
-        balance = IERC20(token1).balanceOf(address(this));
-    }
-
-    event Mint(
-        address sender,
-        address indexed owner,
-        int24 indexed lowerTick,
-        int24 indexed upperTick,
-        uint128 amount,
-        uint256 amount0,
-        uint256 amount1
-    );
 }

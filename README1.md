@@ -5,12 +5,13 @@
   - [npm node package manager](#npm-node-package-manager)
     - [nvm](#nvm)
 - [Vscode/markdown](#vscodemarkdown)
-  - [shell](#shell)
-  - [git](#git-1)
-  - [send to terminal](#send-to-terminal)
-  - [VSCode color](#vscode-color)
-  - [VScode git](#vscode-git)
-  - [RMarkdown all in one](#rmarkdown-all-in-one)
+  - [extensions](#extensions)
+    - [shell](#shell)
+    - [git](#git-1)
+    - [send to terminal](#send-to-terminal)
+    - [VSCode color](#vscode-color)
+    - [VScode git](#vscode-git)
+    - [RMarkdown all in one](#rmarkdown-all-in-one)
 - [Brownie](#brownie)
   - [brownie-05-Simple-Storage](#brownie-05-simple-storage)
   - [brownie-06-fundme](#brownie-06-fundme)
@@ -117,6 +118,11 @@ copilot alternative: tabnine
 - ollama
   - ollama run llama3.2:1b
   - Cody VScode extension
+
+## extensions
+
+- solidity visual auditor
+-
 
 ### shell
 
@@ -1166,6 +1172,12 @@ Tests
 
 ## V3
 
+
+```bash
+cd uniswapv3-code
+forge test
+
+```
 ```bash
 
 mkdir uniswapv3-code
@@ -1173,11 +1185,22 @@ cd uniswapv3-code
 forge init --vscode
 #initialize regardless
 forge init --vscode --force
-rm script/* src/Contract.sol test/Contract.t.sol
-$ mkdir uniswapv3clone
-$ cd uniswapv3clone
-$ forge init --vscode
+rm src/Counter.sol test/Counter.t.sol
+forge install foundry-rs/forge-std --no-commit
+
 npx create-react-app ui
+
+forge test
+# using A for B is a feature of Solidity that lets you extend type B with functions from library contract A
+
+
+# Create src/UniswapV3Pool.sol:
+# pragma solidity ^0.8.14;
+# contract UniswapV3Pool {}
+
+```
+
+```bash
 
 
 #if not working check git status
