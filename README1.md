@@ -144,6 +144,7 @@ git log
 git status
 git reset
 git commit -m "dfkj"
+git push
 //github
 //make repository
 git config user.name ""
