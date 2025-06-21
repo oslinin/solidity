@@ -17,6 +17,9 @@ networks:
   development:
     verify: False
   ganache-local:
+    host: http://127.0.0.1
+    port: 7545
+    network_id: 5777
     verify: False
 wallets:
   from_key: ${PRIVATE_KEY}

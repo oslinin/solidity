@@ -14,6 +14,8 @@
     - [RMarkdown all in one](#rmarkdown-all-in-one)
 - [Brownie](#brownie)
   - [brownie-05-Simple-Storage](#brownie-05-simple-storage)
+    - [contract](#contract)
+    - [test](#test)
   - [brownie-06-fundme](#brownie-06-fundme)
   - [brownie-09-erc20](#brownie-09-erc20)
 - [JS](#js)
@@ -71,6 +73,7 @@
     - [Calculating Liquidity](#calculating-liquidity)
     - [Pool contract](#pool-contract)
 - [Medium Uniswap](#medium-uniswap)
+- [Speedrun](#speedrun)
 
 # OS
 
@@ -133,35 +136,22 @@ mkdir xx && cd $_
 ### git
 
 git init -b main
-
+git fetch
+git pull
 git status
-
 git add .
-
 git log
-
 git status
-
 git reset
-
 git commit -m "dfkj"
-
 //github
-
 //make repository
-
 git config user.name ""
-
 git remote add origin <url>
-
 git remote -v
-
 git push
-
 git push -u origin main
-
 git pull origin main
-
 git clone
 
 ### send to terminal
@@ -219,22 +209,82 @@ Table Ctrl + Shift + I not working!f
 
 https://github.com/smartcontractkit/full-blockchain-solidity-course-py
 
+```bash
+python3 -m venv ~/Documents/venv
+source ~/Documents/venv/bin/activate
+
+pip install black
+pip install py-solc-x
+```
+
 ## brownie-05-Simple-Storage
+
+Contract: SimpleStoreage.sol
+struct(favoriteNumber, name);
+mapping nameToFavoriteNumber
+retreive
+addperson
 
 ```bash
 git clone https://github.com/PatrickAlphaC/brownie_simple_storage.git brownie-05-Simple-Storage && cd brownie-05-Simple-Storage && rm -rf .git
 
+pipx install eth-brownie
+pipx inject eth-brownie setuptools
+npm install -g ganache-cli
+brownie #commands
+brownie run #run script
+brownie accounts list
+brownie accounts new 0
+brownie test
+brownie test -k test_updating_storage
+brownie test -pdb #python debugger
+brownie test -s #verbose
+brownie compile
+brownie console
+brownie run scripts/deploy.py
+brownie run scripts/deploy.py --network sepolia
+
+#network
+source .env
+echo $WEB3_INFURA_PROJECT_ID
+
+```
+
+### contract
+
+### test
+
+```python
+test_deploy:
+    simple_storage = SimpleStorage.deploy({"from": account})
+    starting_value = simple_storage.retrieve()
+def test_updating_storage():
+    # Arrange
+    account = accounts[0]
+    simple_storage = SimpleStorage.deploy({"from": account})
+    # Act
+    expected = 15
+    txn = simple_storage.store(expected, {"from": account})
+    txn.wait(1)
+    # Assert
+    assert expected == simple_storage.retrieve()
 ```
 
 ## brownie-06-fundme
 
+open ganache UI
+
 ```bash
 git clone https://github.com/PatrickAlphaC/brownie_fund_me brownie-06-fundme && cd brownie-06-fundme && rm -rf .git
+
 mkdir brownie_fundme
 cd
 code .
 brownie init
 #create FundMe.sol #copy from prior
+brownie run scripts/deploy.py
+brownie networks list
+
 brownie run scripts/deploy.py --network ganache-local
 brownie run scripts/fund_and_withdraw.py --network ganache-local
 brownie test --network ganache-local #fails
@@ -566,6 +616,7 @@ https://github.com/smartcontractkit/hardhat-starter-kit/issues/140 custom chains
 
 NftMarketplace
 0x35037C1ff4f5e1CCc2B5d5acbC245b4f3C8a66a3
+https://sepolia.etherscan.io/address/0x35037C1ff4f5e1CCc2B5d5acbC245b4f3C8a66a3
 
 ### thegraph
 
@@ -1172,12 +1223,12 @@ Tests
 
 ## V3
 
-
 ```bash
 cd uniswapv3-code
 forge test
 
 ```
+
 ```bash
 
 mkdir uniswapv3-code
@@ -1192,7 +1243,10 @@ npx create-react-app ui
 
 forge test
 # using A for B is a feature of Solidity that lets you extend type B with functions from library contract A
+#solidity documentation https://docs.soliditylang.org/en/latest/
 
+#We’ll use the ERC20 contract from Solmate, a collection of gas-optimized contracts, and make an ERC20 contract that inherits from the Solmate contract and exposes minting (it’s public by default).
+forge install rari-capital/solmate
 
 # Create src/UniswapV3Pool.sol:
 # pragma solidity ^0.8.14;
@@ -1283,3 +1337,41 @@ touch ./test/UniswapV3Pool.t.sol
     - proftiable_opportunities_intial_check = check_all_structured_paths(possible_profitable_paths);
     - loan_pools = await determine_loan_pools_of_path(token_ids,pool_addresses);
       - path_and_loan_pools.push({ path: path, loan_pools: loan_pools });
+
+# Speedrun
+
+```bash
+# https://speedrunethereum.com/challenge/simple-nft-example
+npx create-eth@0.1.0 -e challenge-0-simple-nft
+challenge-0-simple-nft
+cd speedrun/challenge-0-simple-nft
+yarn chain
+#second terminal
+yarn deploy
+#in a third terminal window, start your 📱 frontend:
+yarn start
+#disconnect metamask, use burner wallet
+
+#mint in gui
+
+#deploy
+yarn generate
+#Encrypted Private Key saved to packages/hardhat/.env file
+#01563297374349fc3b71796ad69909d0b026e910
+yarn account:import
+yarn account
+yarn deploy --network sepolia
+# reusing "YourCollectible" at 0x913a11F3Fd96402ffd26950c0674928a45C307E9
+# 📝 Updated TypeScript contract definition file on ../nextjs/contracts/deployedContracts.ts
+#  https://sepolia.etherscan.io/address/0x913a11F3Fd96402ffd26950c0674928a45C307E9
+
+#ship frontend
+yarn vercel:login
+yarn vercel
+#speedrun/challenge-0=simple-nfts/packages/hardhat/.env
+# ALCHEMY_API_KEY=ZnCEzSyp9ichJgoz7NJH0ZKkr9mspFQM
+# ETHERSCAN_MAINNET_API_KEY=M6A22IGYF2JXDPVUKJN44S2RZA7IEAFP7N
+yarn verify --network sepolia
+
+
+```

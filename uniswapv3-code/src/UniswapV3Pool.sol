@@ -45,8 +45,6 @@ contract UniswapV3Pool {
         slot0 = Slot0({sqrtPriceX96: sqrtPriceX96, tick: tick});
     }
 
-
-
     function mint(
         address owner,
         int24 lowerTick,
@@ -101,4 +99,5 @@ contract UniswapV3Pool {
             amount0,
             amount1
         );
+    }
 }
