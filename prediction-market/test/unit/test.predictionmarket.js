@@ -1,7 +1,9 @@
 const { expect } = require("chai");
-const { ethers } = require("hardhat");
+const { ethers, network } = require("hardhat");
+const { developmentChains } = require("../../helper-hardhat-config");
 
-describe("PredictionMarket", function () {
+developmentChains.includes(network.name)
+  ? describe("PredictionMarket", function () {
     let owner, alice, oracle;
     let usdc, yesToken, noToken;
     let market, factory;
@@ -113,4 +115,4 @@ describe("PredictionMarket", function () {
         expect(await market.resolved()).to.be.true;
         expect(await market.outcome()).to.be.true;
     });
-});
+}) : describe.skip;

@@ -103,34 +103,26 @@ A factory contract for creating new `PredictionMarketNWay` instances.
 
 ## Testing
 
-The project includes a comprehensive test suite to ensure the correctness of the smart contracts.
+The project includes a comprehensive test suite to ensure the correctness of the smart contracts. The Hardhat development environment is configured to run as a **mainnet fork**. This means that when you run `yarn hardhat test`, the tests are executed in an environment that mirrors the live Ethereum mainnet.
 
-### `test/test.predictionmarket.js`
+A key advantage of this setup is that we do not need to deploy mock contracts for external dependencies like USDC. Instead, our tests interact directly with the official, deployed [USDC contract on mainnet](https://etherscan.io/address/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48).
 
-This file tests the functionality of the `PredictionMarket.sol` contract. It covers:
-- **Initial State:** Checks if the market is initialized with the correct liquidity and probability (50%).
-- **Betting:** Tests the `bet` function with various scenarios, ensuring the AMM logic is correctly implemented and that users receive the correct amount of outcome tokens.
-- **Probability Calculation:** Verifies that the `getProbability` function returns the correct probability after bets are placed.
-- **Resolution:** Ensures that the market can be resolved by the oracle and that the `resolved` and `outcome` variables are set correctly.
+### Unit Tests
 
-### `test/testPredictionMarketFactory.js`
+The unit tests in the `test/unit/` directory are designed to run on this forked mainnet environment. They cover the core logic of each contract. For example, `test/unit/test.predictionmarket.js` verifies the betting and resolution mechanics, using the actual mainnet USDC contract for transactions.
 
-This file tests the `PredictionMarketFactory.sol` contract. It covers:
-- **Market Creation:** Ensures that the factory can create new `PredictionMarket` instances and that the `MarketCreated` event is emitted.
-- **Market Categorization:** Verifies that the `getMarketsByCategory` function correctly returns markets based on their category.
+### Staging Tests
 
-### `test/testPredictionMarketNWay.js`
+Staging tests in `test/staging/` are designed to test interactions with deployed contracts on the forked network.
 
-This file tests the `PredictionMarketNWay.sol` contract. It covers:
-- **Initial State:** Checks if the N-way market is initialized with the correct number of outcome tokens, liquidity, and initial probabilities.
-- **Betting:** Tests the `bet` function to ensure that users can bet on different outcomes and that the token balances are updated correctly.
-- **Resolution:** Verifies that the market can be resolved by the oracle with a specific winning outcome.
+#### `test/staging/test.usdc.interaction.js`
 
-### `test/testPredictionMarketFactoryNWay.js`
+This test verifies that the `PredictionMarket` contract can correctly interact with the real USDC contract on the forked mainnet. It includes logic to impersonate a known USDC holder to acquire funds for testing, demonstrating a powerful feature of forked testing.
 
-This file tests the `PredictionMarketFactoryNWay.sol` contract. It covers:
-- **Market Creation:** Ensures that the factory can create new `PredictionMarketNWay` instances.
-- **Market Categorization:** Verifies that the `getMarketsByCategory` function correctly returns N-way markets based on their category.
+To run this specific test:
+```bash
+yarn hardhat test test/staging/test.usdc.interaction.js
+```
 
 ## Deployment
 
